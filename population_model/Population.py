@@ -1,7 +1,7 @@
 import math
 import numpy as np
 
-from PopulationModel.PopulationMember import PopulationMember
+from population_model.PopulationMember import PopulationMember
 from Exceptions import OutOfRange
 
 

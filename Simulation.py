@@ -1,10 +1,10 @@
 import numpy as np
 
-from CrossoverMethods.CrossoverMethod import CrossoverMethod
-from MutationMethods.MutationMethod import MutationMethod
-from PopulationModel.Population import Population
-from SelectionMethods.SelectionMethod import SelectionMethod
-from evaluate_function.EvaluateFunction import EvaluateFunction
+from crossover_methods.CrossoverMethod import CrossoverMethod
+from mutation_methods.MutationMethod import MutationMethod
+from population_model.Population import Population
+from selection_methods.SelectionMethod import SelectionMethod
+from evaluate_functions.EvaluateFunction import EvaluateFunction
 
 
 class Simulation:
