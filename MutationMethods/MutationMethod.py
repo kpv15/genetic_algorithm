@@ -1,0 +1,2 @@
+class MutationMethod:
+    raise NotImplementedError
