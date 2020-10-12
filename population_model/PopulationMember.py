@@ -19,7 +19,7 @@ class PopulationMember:
 
     def decode_member(self):
         decode_individual = np.zeros(self.chromosomes_number)
-        for i in range(self.genes_number):
+        for i in range(self.chromosomes_number):
             tmp = 1
             for j in range(self.genes_number * i, self.genes_number * i - 1, -1):
                 decode_individual[i] += tmp * self.chromosome_array[j]

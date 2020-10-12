@@ -16,9 +16,10 @@ class Simulation:
     mutation_method = None  # type: MutationMethod
     evaluation_function = None  # type: EvaluateFunction
     inversion_method = None  # type: InversionMethod
+    file_output = None
 
     def __init__(self, population, generations_max_number, selection_method, crossover_method, mutation_method,
-                 evaluation_function, inversion_method=None):
+                 evaluation_function, inversion_method=None, file_output=None):
         self.population = population
         self.generations_max_number = generations_max_number
         self.selection_method = selection_method
@@ -26,10 +27,14 @@ class Simulation:
         self.mutation_method = mutation_method
         self.evaluation_function = evaluation_function
         self.inversion_method = inversion_method
+        self.file_output = file_output
 
     def simulate(self):
         for i in range(self.generations_max_number):
             population_evaluate = self.__evaluate_population()
+            if self.file_output is not None:
+                self.file_output.write(self.population)
+                self.file_output.write(population_evaluate)
             self.population = self.selection_method.select_next_generation(self.population, population_evaluate)
             self.population = self.crossing_method.crossover_population(self.population)
             self.population = self.mutation_method.mutate_population(self.population)

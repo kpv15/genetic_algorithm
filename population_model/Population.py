@@ -1,4 +1,5 @@
 import math
+
 import numpy as np
 
 from population_model.PopulationMember import PopulationMember
@@ -43,8 +44,7 @@ class Population:
         self.dx = interval / (real_combination_number - 1)
 
     def __generate_population(self):
-        self.population_array = np.random(2, size=(self.chromosomes_number, self.genes_number * self.population_size))
-        pass
+        self.population_array = np.random.randint(2, size=(self.population_size, self.genes_number * self.chromosomes_number))
 
     def __return_population_member(self, i):
         if i < 0 or i >= self.population_size:
@@ -58,9 +58,12 @@ class Population:
         return self
 
     def __next__(self):
-        if self.iterator_value > self.population_size:
+        if self.iterator_value >= self.population_size:
             raise StopIteration
         else:
             i = self.iterator_value
             self.iterator_value += 1
             return self.__return_population_member(i)
+
+    def __str__(self):
+        return str(self.population_array)

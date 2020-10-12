@@ -1,4 +1,4 @@
-from genetic_operators.mutation_methods import MutationMethod
+from genetic_operators.mutation_methods.MutationMethod import MutationMethod
 
 
 # todo one/two point mutation

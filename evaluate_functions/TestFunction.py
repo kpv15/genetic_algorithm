@@ -4,7 +4,7 @@ from evaluate_functions.EvaluateFunction import EvaluateFunction
 
 
 class TestFunction(EvaluateFunction):
-    def evaluate(self, *values):
+    def evaluate(self, values):
         x1 = values[0]
         x2 = values[1]
         # fact1 = math.cos(math.sin(math.fabs(x1**2-x2**2))) - 0.5
