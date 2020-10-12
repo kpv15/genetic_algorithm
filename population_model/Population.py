@@ -17,6 +17,7 @@ class Population:
     dx = None
     genes_number = None
     population_array = None
+    next_population_array = None
     # for iterator
     iterator_value = None
 
@@ -44,14 +45,19 @@ class Population:
         self.dx = interval / (real_combination_number - 1)
 
     def __generate_population(self):
-        self.population_array = np.random.randint(2, size=(self.population_size, self.genes_number * self.chromosomes_number))
+        self.population_array = np.random.randint(2, size=(
+            self.population_size, self.genes_number * self.chromosomes_number))
 
-    def __return_population_member(self, i):
+    def return_population_member(self, i):
         if i < 0 or i >= self.population_size:
             raise OutOfRange()
         return PopulationMember(self.population_array[i], self.chromosomes_number, self.minimum_value,
                                 self.maximum_value,
                                 self.dx, self.genes_number)
+
+    def add_next_generation_member(self, population_member: PopulationMember):
+        if self.next_population_array is None:
+            self.next_population_array = np.
 
     def __iter__(self):
         self.iterator_value = 0
