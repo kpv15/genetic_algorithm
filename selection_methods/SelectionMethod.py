@@ -9,7 +9,7 @@ class SelectionMethod:
     def select_next_generation(self, population, population_evaluate):
         raise NotImplementedError
 
-    def __save_elite(self, population, population_evaluate):
+    def save_elite(self, population, population_evaluate):
         survivors_number = round(population.population_size * self.part_of_guarded)
         if not self.search_minimum:
             elite_survivors_indexes = population_evaluate.argsort()[-survivors_number:]

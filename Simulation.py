@@ -35,9 +35,9 @@ class Simulation:
             if self.file_output is not None:
                 self.file_output.write(self.population)
                 self.file_output.write(population_evaluate)
-            self.population = self.selection_method.select_next_generation(self.population, population_evaluate)
-            self.population = self.crossing_method.crossover_population(self.population)
-            self.population = self.mutation_method.mutate_population(self.population)
+            self.selection_method.select_next_generation(self.population, population_evaluate)
+            self.crossing_method.cross_population(self.population)
+            self.mutation_method.mutate_population(self.population)
             if self.inversion_method is not None:
                 self.population = self.inversion_method.make_inversions_in_population(self.population)
 

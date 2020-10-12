@@ -3,7 +3,7 @@ import math
 import numpy as np
 
 from population_model.PopulationMember import PopulationMember
-from Exceptions import OutOfRange
+from Exceptions import OutOfRangeException, PopulationIsFullException
 
 
 class Population:
@@ -18,6 +18,7 @@ class Population:
     genes_number = None
     population_array = None
     next_population_array = None
+    next_population_member_count = None
     # for iterator
     iterator_value = None
 
@@ -50,14 +51,23 @@ class Population:
 
     def return_population_member(self, i):
         if i < 0 or i >= self.population_size:
-            raise OutOfRange()
+            raise OutOfRangeException()
         return PopulationMember(self.population_array[i], self.chromosomes_number, self.minimum_value,
                                 self.maximum_value,
                                 self.dx, self.genes_number)
 
     def add_next_generation_member(self, population_member: PopulationMember):
         if self.next_population_array is None:
-            self.next_population_array = np.
+            self.next_population_array = np.empty([self.population_size, self.genes_number * self.chromosomes_number], dtype=int)
+            self.next_population_member_count = 0
+        elif self.next_population_member_count >= self.population_size:
+            raise PopulationIsFullException
+        self.next_population_array[self.next_population_member_count] = population_member.chromosome_array
+        self.next_population_member_count += 1
+
+    def change_of_generations(self):
+        self.population_array = self.next_population_array
+        self.next_population_array = None
 
     def __iter__(self):
         self.iterator_value = 0
@@ -69,7 +79,7 @@ class Population:
         else:
             i = self.iterator_value
             self.iterator_value += 1
-            return self.__return_population_member(i)
+            return self.return_population_member(i)
 
     def __str__(self):
         return str(self.population_array)

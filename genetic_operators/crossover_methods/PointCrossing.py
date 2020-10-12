@@ -3,5 +3,5 @@ from genetic_operators.crossover_methods.CrossingMethod import CrossingMethod
 
 
 class PointCrossing(CrossingMethod):
-    def crossover_population(self, population):
+    def cross_population(self, population):
         raise NotImplementedError

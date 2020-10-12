@@ -1,3 +1,3 @@
 class CrossingMethod:
-    def crossover_population(self, population):
+    def cross_population(self, population):
         raise NotImplementedError
