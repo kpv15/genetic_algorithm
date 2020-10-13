@@ -53,12 +53,12 @@ class Population:
         if i < 0 or i >= self.population_size:
             raise OutOfRangeException()
         return PopulationMember(self.population_array[i], self.chromosomes_number, self.minimum_value,
-                                self.maximum_value,
-                                self.dx, self.genes_number)
+                                self.maximum_value, self.dx, self.genes_number)
 
     def add_next_generation_member(self, population_member: PopulationMember):
         if self.next_population_array is None:
-            self.next_population_array = np.empty([self.population_size, self.genes_number * self.chromosomes_number], dtype=int)
+            self.next_population_array = np.empty([self.population_size, self.genes_number * self.chromosomes_number],
+                                                  dtype=int)
             self.next_population_member_count = 0
         elif self.next_population_member_count >= self.population_size:
             raise PopulationIsFullException

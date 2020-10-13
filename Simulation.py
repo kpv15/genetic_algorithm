@@ -33,11 +33,10 @@ class Simulation:
         for i in range(self.generations_max_number):
             population_evaluate = self.__evaluate_population()
             if self.file_output is not None:
-                self.file_output.write(self.population)
-                self.file_output.write(population_evaluate)
+                self.__save_generation_to_file(population_evaluate)
             self.selection_method.select_next_generation(self.population, population_evaluate)
             self.crossing_method.cross_population(self.population)
-            self.mutation_method.mutate_population(self.population)
+            # self.mutation_method.mutate_population(self.population)
             if self.inversion_method is not None:
                 self.population = self.inversion_method.make_inversions_in_population(self.population)
 
@@ -47,3 +46,14 @@ class Simulation:
             population_evaluate_tmp.append(self.evaluation_function.evaluate(population_member.decode_member()))
         population_evaluate = np.asarray(population_evaluate_tmp)
         return population_evaluate
+
+    def __save_generation_to_file(self, population_evaluate):
+        for i in range(self.population.population_size):
+            population_member = self.population.return_population_member(i)
+            arg = population_member.decode_member()
+            val = self.evaluation_function.evaluate(arg)
+            self.file_output.write(str(arg))
+            self.file_output.write(" ")
+            self.file_output.write(str(val))
+            self.file_output.write("\n")
+        self.file_output.write("###################\n")
