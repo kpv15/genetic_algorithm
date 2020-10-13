@@ -8,7 +8,7 @@ from genetic_operators.mutation_methods.PointMutation import PointMutation
 file = open("result.txt", "w")
 
 function = TestFunction()
-population = Population(10, -5, 10, function.getValuesNumber(), 0.1)
+population = Population(100, -5, 10, function.getValuesNumber(), 0.1)
 simulation = Simulation(population, 100, RouletteSelection(0.1, search_minimum=True), OnePointCrossing(0.8),
                         PointMutation(), function, file_output=file)
 simulation.simulate()
