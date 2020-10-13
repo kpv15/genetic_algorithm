@@ -16,6 +16,10 @@ class RouletteSelection(SelectionMethod):
         worst_member_evaluate = population_evaluate.min()
         if worst_member_evaluate <= 0:
             temp_eval += math.fabs(worst_member_evaluate) + 1  # todo check this 1
+
+        if self.search_minimum:
+            temp_eval = np.reciprocal(temp_eval)
+
         temp_eval = np.cumsum(temp_eval)
 
         for i in range(len(elite_indexes), population.population_size):
