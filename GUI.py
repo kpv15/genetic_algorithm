@@ -5,7 +5,7 @@ import tkinter.ttk as tkk
 class GUI:
     current_row = 0
 
-    def __init__(self):
+    def __init__(self, selection_methods_names, mutation_methods_names, crossing_methods_names):
         self.window = tk.Tk()
         self.window.title("Genetic")
 
@@ -39,23 +39,21 @@ class GUI:
 
         self.lb_selection_method = self.__new_label("selection method:")
         self.selected_selection_method_name = tk.StringVar(self.window)
-        self.combobox_selection_method = self.__new_combobox(["roulette selection", "one", "two"],  # todo set proper
+        self.combobox_selection_method = self.__new_combobox(selection_methods_names,
                                                              self.selected_selection_method_name)
         self.combobox_selection_method.current(0)
         self.__add_row(self.lb_selection_method, self.combobox_selection_method)
 
         self.lb_mutation_method = self.__new_label("mutation method:")
         self.selected_mutation_method_name = tk.StringVar(self.window)
-        self.combobox_mutation_method = self.__new_combobox(["one", "two"],  # todo set proper
-                                                            self.selected_mutation_method_name)
+        self.combobox_mutation_method = self.__new_combobox(mutation_methods_names, self.selected_mutation_method_name)
         self.combobox_mutation_method.current(0)
         self.__add_row(self.lb_mutation_method, self.combobox_mutation_method)
 
         self.lb_crossing_method = self.__new_label("crossing method:")
         self.lb_crossing_method.grid(row=9, column=0)
         self.selected_crossing_method_name = tk.StringVar(self.window)
-        self.combobox_crossing_method = self.__new_combobox(["one", "two"],  # todo set proper
-                                                            self.selected_crossing_method_name)
+        self.combobox_crossing_method = self.__new_combobox(crossing_methods_names, self.selected_crossing_method_name)
         self.combobox_crossing_method.current(0)
         self.__add_row(self.lb_crossing_method, self.combobox_crossing_method)
 
@@ -64,7 +62,16 @@ class GUI:
         self.current_row += 1
 
     def __call_start(self):
-        print("hello word")
+        print(self.entry_min_val.get())
+        print(self.entry_max_val.get())
+        print(self.entry_dx_val.get())
+        print(self.entry_population_size.get())
+        print(self.entry_generations_number.get())
+        print(self.entry_elite_strategy_val.get())
+        print(self.entry_immersion_operator_val.get())
+        print(self.selected_selection_method_name.get())
+        print(self.selected_mutation_method_name.get())
+        print(self.selected_crossing_method_name.get())
 
     def __add_row(self, label, input_item):
         label.grid(row=self.current_row, column=0)
@@ -72,7 +79,17 @@ class GUI:
         self.current_row += 1
 
     def __new_entry(self):
-        return tk.Entry(self.window, justify=tk.RIGHT)
+        return tk.Entry(self.window, justify=tk.RIGHT, validate='all',
+                        validatecommand=(self.window.register(self.__validate_entry), "%P"))
+
+    @staticmethod
+    def __validate_entry(val):
+        try:
+            float(val)
+        except ValueError:
+            if val != "":
+                return False
+        return True
 
     def __new_label(self, text):
         return tk.Label(self.window, text=text)
@@ -85,5 +102,5 @@ class GUI:
 
 
 if __name__ == "__main__":
-    window = GUI()
+    window = GUI(["roulette selection", "one", "two"], ["one", "two"], ["one", "two"])
     window.show()
