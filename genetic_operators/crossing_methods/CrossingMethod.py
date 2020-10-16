@@ -6,8 +6,8 @@ import numpy as np
 class CrossingMethod:
     mutation_probability = None
 
-    def __init__(self, mutation_probability):
-        self.mutation_probability = mutation_probability
+    def __init__(self, crossing_probability):
+        self.mutation_probability = crossing_probability
 
     def cross_population(self, population):
         members_to_cross = []
