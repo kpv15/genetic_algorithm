@@ -1,7 +1,7 @@
 import numpy as np
 
 from genetic_operators.InversionMethod import InversionMethod
-from genetic_operators.crossover_methods import CrossingMethod
+from genetic_operators.crossing_methods import CrossingMethod
 from genetic_operators.mutation_methods import MutationMethod
 from population_model.Population import Population
 from selection_methods.SelectionMethod import SelectionMethod

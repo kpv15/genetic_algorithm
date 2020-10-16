@@ -1,4 +1,4 @@
-from genetic_operators.crossover_methods import CrossingMethod
+from genetic_operators.crossing_methods import CrossingMethod
 
 
 class HomogeneousCrossing(CrossingMethod):

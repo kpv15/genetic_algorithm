@@ -1,7 +1,7 @@
 import random
 from typing import Tuple
 
-from genetic_operators.crossover_methods.CrossingMethod import CrossingMethod
+from genetic_operators.crossing_methods.CrossingMethod import CrossingMethod
 
 # todo one/two/three point crossing
 from population_model.PopulationMember import PopulationMember
