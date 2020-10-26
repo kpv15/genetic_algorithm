@@ -1,4 +1,4 @@
-from GUI import GUI
+from GUI.GUI import GUI
 from Simulation import Simulation
 from evaluate_functions.TestFunction import TestFunction
 from genetic_operators.crossing_methods.OnePointCrossing import OnePointCrossing
@@ -12,10 +12,12 @@ class Genetic:
     mutation_methods = {"Point mutation": PointMutation}
     selection_methods = {"Roulette selection": RouletteSelection}
 
+    def __init__(self):
+        self.gui = GUI(self, list(self.selection_methods.keys()), list(self.mutation_methods.keys()),
+                       list(self.crossing_methods.keys()))
+
     def run(self):
-        gui = GUI(self, list(self.selection_methods.keys()), list(self.mutation_methods.keys()),
-                  list(self.crossing_methods.keys()))
-        gui.show()
+        self.gui.show()
 
     def start_work(self, minimum_value, maximum_value, dx_value, population_size, generations_number,
                    elite_strategy_value, immersion_operator_value, crossing_probability, mutation_probability,
