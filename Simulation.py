@@ -9,13 +9,13 @@ from evaluate_functions.EvaluateFunction import EvaluateFunction
 
 
 class Simulation:
-    population = None  # type: Population
+    population: Population = None
     generations_max_number = None
-    selection_method = None  # type: SelectionMethod
-    crossing_method = None  # type: CrossingMethod
-    mutation_method = None  # type: MutationMethod
-    evaluation_function = None  # type: EvaluateFunction
-    inversion_method = None  # type: InversionMethod
+    selection_method: SelectionMethod = None
+    crossing_method: CrossingMethod = None
+    mutation_method: MutationMethod = None
+    evaluation_function: EvaluateFunction = None
+    inversion_method: InversionMethod = None
     file_output = None
 
     def __init__(self, population, generations_max_number, selection_method, crossover_method, mutation_method,
