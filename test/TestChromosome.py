@@ -6,11 +6,11 @@ from model.elements.chromosome import make_chromosome, chromosome_equal
 
 @pytest.fixture()
 def lists():
-    first_array = [0, 0, 0, 0, 1, 1, 1, 1]
-    second_array = [1, 1, 1, 1, 0, 0, 0, 0]
-    third_array = [1, 0, 1, 0, 1, 0, 1, 0]
-    ones_array = [1 for i in range(8)]
-    zeros_array = [0 for i in range(8)]
+    first_array = np.array([0, 0, 0, 0, 1, 1, 1, 1])
+    second_array = np.array([1, 1, 1, 1, 0, 0, 0, 0])
+    third_array = np.array([1, 0, 1, 0, 1, 0, 1, 0])
+    ones_array = np.array([1 for i in range(8)])
+    zeros_array = np.array([0 for i in range(8)])
     return first_array, second_array, third_array, ones_array, zeros_array
 
 
@@ -103,7 +103,7 @@ class TestChromosome:
         assert chromosome_equal(self.first.combine(self.second, function), self.ones)
 
     def test_complete_to(self):
-        larger_chromosome = make_chromosome([1 for i in range(1000)])
+        larger_chromosome = make_chromosome(np.array([1 for i in range(1000)]))
         completed_chromosome = self.second.complete_to(larger_chromosome)
         assert completed_chromosome.size() == larger_chromosome.size()
         assert np.array_equal(completed_chromosome[:self.second.size()], self.second.genes)
@@ -111,7 +111,7 @@ class TestChromosome:
                               larger_chromosome[:completed_chromosome.size() - self.second.size()])
 
     def test_complete_to_random(self):
-        larger_chromosome = make_chromosome([0 for i in range(1000)])
+        larger_chromosome = make_chromosome(np.array([0 for i in range(1000)]))
         completed_chromosome = self.second.complete_to_random(larger_chromosome)
         assert completed_chromosome.size() == larger_chromosome.size()
         assert all(i < 2 for i in completed_chromosome)

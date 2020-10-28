@@ -34,7 +34,7 @@ class Chromosome:
         return make_chromosome(np.logical_and(self.genes, chromosome.genes))
 
     def partial_logical_and(self, chromosome, array):
-        return make_chromosome([x and y if i in array else x for i, (x, y) in enumerate(zip(self, chromosome))])
+        return make_chromosome(np.array([x and y if i in array else x for i, (x, y) in enumerate(zip(self, chromosome))]))
 
     def combine(self, individual, function):
         return function(self, individual)
@@ -52,9 +52,9 @@ class Chromosome:
         return make_chromosome(new_genes)
 
 
-def make_chromosome(array):
-    chromosome = Chromosome(len(array))
-    chromosome.genes = np.copy(array)
+def make_chromosome(ndarray: np.ndarray):
+    chromosome = Chromosome(ndarray.size)
+    chromosome.genes = np.copy(ndarray.astype(np.bool_))
     return chromosome
 
 
