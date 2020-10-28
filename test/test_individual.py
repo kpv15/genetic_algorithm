@@ -3,10 +3,8 @@ from functools import partial
 
 import pytest
 
-from model.elements.chromosome import *
 from model.elements.individual import *
-
-from .TestChromosome import chromosomes, lists
+from .test_chromosome import chromosomes, lists
 
 
 @pytest.fixture()
