@@ -1,19 +1,22 @@
 import pytest
 import numpy as np
 
-from typing import Tuple
-
-from model.Chromosome import Chromosome, make_chromosome, chromosome_equal
-
-first_array = [0, 0, 0, 0, 1, 1, 1, 1]
-second_array = [1, 1, 1, 1, 0, 0, 0, 0]
-third_array = [1, 0, 1, 0, 1, 0, 1, 0]
-ones_array = [1 for i in range(8)]
-zeros_array = [0 for i in range(8)]
+from model.Chromosome import make_chromosome, chromosome_equal
 
 
-@pytest.fixture(scope="module")
-def chromosomes() -> Tuple[Chromosome, Chromosome, Chromosome, Chromosome, Chromosome]:
+@pytest.fixture()
+def lists():
+    first_array = [0, 0, 0, 0, 1, 1, 1, 1]
+    second_array = [1, 1, 1, 1, 0, 0, 0, 0]
+    third_array = [1, 0, 1, 0, 1, 0, 1, 0]
+    ones_array = [1 for i in range(8)]
+    zeros_array = [0 for i in range(8)]
+    return first_array, second_array, third_array, ones_array, zeros_array
+
+
+@pytest.fixture()
+def chromosomes(lists):
+    first_array, second_array, third_array, ones_array, zeros_array = lists
     first = make_chromosome(first_array)
     second = make_chromosome(second_array)
     third = make_chromosome(third_array)
@@ -22,21 +25,20 @@ def chromosomes() -> Tuple[Chromosome, Chromosome, Chromosome, Chromosome, Chrom
     return first, second, third, ones, zeros
 
 
-def test_make_chromosome(chromosomes):
-    first, second, third, ones, zeros = chromosomes
-    assert first.genes.size == second.genes.size == third.genes.size == ones.genes.size == zeros.genes.size == 8
-    assert np.array_equal(first.genes, first_array)
-    assert np.array_equal(second.genes, second_array)
-    assert np.array_equal(third.genes, third_array)
-    assert np.array_equal(ones.genes, ones_array)
-    assert np.array_equal(zeros.genes, zeros_array)
-
-
 class TestChromosome:
 
     @pytest.fixture(autouse=True)
     def _init_chromosomes(self, chromosomes):
         self.first, self.second, self.third, self.ones, self.zeros = chromosomes
+
+    def test_make_chromosome(self, lists):
+        first_array, second_array, third_array, ones_array, zeros_array = lists
+        assert all(getattr(self, x).genes.size == 8 for x in ("first", "second", "third", "ones", "zeros"))
+        assert np.array_equal(self.first.genes, first_array)
+        assert np.array_equal(self.second.genes, second_array)
+        assert np.array_equal(self.third.genes, third_array)
+        assert np.array_equal(self.ones.genes, ones_array)
+        assert np.array_equal(self.zeros.genes, zeros_array)
 
     def test_logical_not(self):
         assert chromosome_equal(self.ones.logical_not(), self.zeros)
