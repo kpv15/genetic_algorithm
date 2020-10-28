@@ -36,6 +36,9 @@ class Chromosome:
     def partial_logical_and(self, chromosome, array):
         return make_chromosome([x and y if i in array else x for i, (x, y) in enumerate(zip(self, chromosome))])
 
+    def combine(self, individual, function):
+        return function(self, individual)
+
     def complete_to(self, chromosome):
         new_genes = np.empty(chromosome.size(), np.bool_)
         new_genes[:self.size()] = self.genes

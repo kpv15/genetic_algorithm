@@ -86,6 +86,21 @@ class TestChromosome:
     def test_partial_logical_and(self):
         assert chromosome_equal(self.first.partial_logical_and(self.second, [4, 5, 6, 7]), self.zeros)
         assert chromosome_equal(self.second.partial_logical_and(self.first, [4, 5, 6, 7]), self.second)
+        
+    def test_combine_simple(self):
+        def function(c1, c2):
+            return make_chromosome(c1.genes + c2.genes)
+        assert chromosome_equal(self.first.combine(self.second, function), make_chromosome(self.first.genes + self.second.genes))
+
+    def test_combine_normal(self):
+        def function(c1, c2):
+            return c1.logical_and(c2)
+        assert chromosome_equal(self.first.combine(self.second, function), self.zeros)
+
+    def test_combine_hard(self):
+        def function(c1, c2):
+            return c1.logical_and(c2).logical_not()
+        assert chromosome_equal(self.first.combine(self.second, function), self.ones)
 
     def test_complete_to(self):
         larger_chromosome = make_chromosome([1 for i in range(1000)])
