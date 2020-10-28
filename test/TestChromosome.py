@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
 
-from model.Chromosome import make_chromosome, chromosome_equal
+from model.elements.chromosome import make_chromosome, chromosome_equal
 
 
 @pytest.fixture()
