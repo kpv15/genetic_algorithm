@@ -27,13 +27,13 @@ class Chromosome:
     def logical_or(self, chromosome):
         return make_chromosome(np.logical_or(self.genes, chromosome.genes))
 
-    def partial_logical_or(self, chromosome, array):
+    def partial_logical_or(self, chromosome, array: List[int]):
         return make_chromosome(np.array([x or y if i in array else x for i, (x, y) in enumerate(zip(self, chromosome))]))
 
     def logical_and(self, chromosome):
         return make_chromosome(np.logical_and(self.genes, chromosome.genes))
 
-    def partial_logical_and(self, chromosome, array):
+    def partial_logical_and(self, chromosome, array: List[int]):
         return make_chromosome(np.array([x and y if i in array else x for i, (x, y) in enumerate(zip(self, chromosome))]))
 
     def combine(self, individual, function):
@@ -52,11 +52,11 @@ class Chromosome:
         return make_chromosome(new_genes)
 
 
-def make_chromosome(ndarray: np.ndarray):
+def make_chromosome(ndarray: np.ndarray) -> Chromosome:
     chromosome = Chromosome(ndarray.size)
     chromosome.genes = np.copy(ndarray.astype(np.bool_))
     return chromosome
 
 
-def chromosome_equal(chromosome1: Chromosome, chromosome2: Chromosome) -> bool:
-    return np.array_equal(chromosome1.genes, chromosome2.genes)
+def chromosome_equal(first: Chromosome, second: Chromosome) -> bool:
+    return np.array_equal(first.genes, second.genes)
