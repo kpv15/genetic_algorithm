@@ -21,12 +21,12 @@ def dicts(chromosomes):
 @pytest.fixture
 def individuals(dicts):
     first_dict, second_dict, third_dict, ones_dict, zeros_dict = dicts
-    first_individual = make_individual(first_dict)
-    second_individual = make_individual(second_dict)
-    third_individual = make_individual(third_dict)
-    ones_individual = make_individual(ones_dict)
-    zeros_individual = make_individual(zeros_dict)
-    return first_individual, second_individual, third_individual, ones_individual, zeros_individual
+    first = make_individual(first_dict)
+    second = make_individual(second_dict)
+    third = make_individual(third_dict)
+    ones = make_individual(ones_dict)
+    zeros = make_individual(zeros_dict)
+    return first, second, third, ones, zeros
 
 
 class TestIndividual:
@@ -35,20 +35,14 @@ class TestIndividual:
         self.first, self.second, self.third, self.ones, self.zeros = individuals
 
     def test_make_individual_length(self, dicts):
-        first_dict, second_dict, third_dict, ones_dict, zeros_dict = dicts
-        assert len(self.first) == len(first_dict)
-        assert len(self.second) == len(second_dict)
-        assert len(self.third) == len(third_dict)
-        assert len(self.ones) == len(ones_dict)
-        assert len(self.zeros) == len(zeros_dict)
+        first, second, third, ones, zeros = dicts
+        assert all(len(getattr(self, x)) == len(y)
+                   for x, y in zip(("first", "second", "third", "ones", "zeros"), (first, second, third, ones, zeros)))
 
     def test_make_individual_content(self, dicts):
-        first_dict, second_dict, third_dict, ones_dict, zeros_dict = dicts
-        assert self.first.chromosomes == first_dict
-        assert self.second.chromosomes == second_dict
-        assert self.third.chromosomes == third_dict
-        assert self.zeros.chromosomes == zeros_dict
-        assert self.ones.chromosomes == ones_dict
+        first, second, third, ones, zeros = dicts
+        assert all(getattr(self, x).chromosomes == y
+                   for x, y in zip(("first", "second", "third", "ones", "zeros"), (first, second, third, ones, zeros)))
 
     def test_individual_equal_the_same_individual(self):
         assert individual_equal(self.first, self.first)

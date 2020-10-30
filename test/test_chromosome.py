@@ -6,12 +6,12 @@ from model.elements.chromosome import make_chromosome, chromosome_equal
 
 @pytest.fixture()
 def lists():
-    first_array = np.array([0, 0, 0, 0, 1, 1, 1, 1])
-    second_array = np.array([1, 1, 1, 1, 0, 0, 0, 0])
-    third_array = np.array([1, 0, 1, 0, 1, 0, 1, 0])
-    ones_array = np.array([1 for i in range(8)])
-    zeros_array = np.array([0 for i in range(8)])
-    return first_array, second_array, third_array, ones_array, zeros_array
+    first_list = np.array([0, 0, 0, 0, 1, 1, 1, 1])
+    second_list = np.array([1, 1, 1, 1, 0, 0, 0, 0])
+    third_list = np.array([1, 0, 1, 0, 1, 0, 1, 0])
+    ones_list = np.array([1 for i in range(8)])
+    zeros_list = np.array([0 for i in range(8)])
+    return first_list, second_list, third_list, ones_list, zeros_list
 
 
 @pytest.fixture()
@@ -31,15 +31,14 @@ class TestChromosome:
         self.first, self.second, self.third, self.ones, self.zeros = chromosomes
 
     def test_make_chromosome_length(self, lists):
-        assert all(len(getattr(self, x)) == 8 for x in ("first", "second", "third", "ones", "zeros"))
+        first, second, third, ones, zeros = lists
+        assert all(len(getattr(self, x)) == len(y)
+                   for x, y in zip(("first", "second", "third", "ones", "zeros"), (first, second, third, ones, zeros)))
 
     def test_make_chromosome_content(self, lists):
-        first_array, second_array, third_array, ones_array, zeros_array = lists
-        assert np.array_equal(self.first.genes, first_array)
-        assert np.array_equal(self.second.genes, second_array)
-        assert np.array_equal(self.third.genes, third_array)
-        assert np.array_equal(self.ones.genes, ones_array)
-        assert np.array_equal(self.zeros.genes, zeros_array)
+        first, second, third, ones, zeros = lists
+        assert all(np.array_equal(getattr(self, x).genes, y)
+                   for x, y in zip(("first", "second", "third", "ones", "zeros"), (first, second, third, ones, zeros)))
 
     def test_chromosome_equal_the_same_chromosome(self):
         assert chromosome_equal(self.first, self.first)
