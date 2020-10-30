@@ -50,6 +50,22 @@ class TestIndividual:
     def test_individual_equal_different_individual(self):
         assert not individual_equal(self.first, self.second)
 
+    def test_extend_one(self):
+        individual = Individual()
+        individual.extend(self.ones)
+        assert individual_equal(individual, self.ones)
+
+    def test_extend_many(self):
+        individual = Individual()
+        individual.extend(self.first)
+        assert individual_equal(individual, self.first)
+
+    def test_extend_multiple(self, dicts):
+        first, second, third, _, _ = dicts
+        individual = Individual()
+        individual.extend(make_individual(first), make_individual(second), make_individual(third))
+        assert individual_equal(individual, self.first)
+
     def test_remove_missing_chromosome(self):
         first = copy(self.first)
         first.remove(["missing"])

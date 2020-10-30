@@ -1,6 +1,6 @@
 from typing import Dict, List
 
-from model.elements.chromosome import chromosome_equal
+from model.elements.chromosome import chromosome_equal, Chromosome
 
 
 class Individual:
@@ -18,6 +18,10 @@ class Individual:
     def __len__(self):
         return len(self.chromosomes)
 
+    def extend(self, *args):
+        for i in args:
+            self.chromosomes = dict(self.chromosomes, **i.chromosomes)
+
     def remove(self, chromosomes_names: List[str]):
         for i in chromosomes_names:
             if i in self.chromosomes:
@@ -27,9 +31,10 @@ class Individual:
         return function(self, individual)
 
 
-def make_individual(dictionary: Dict) -> Individual:
+def make_individual(*args) -> Individual:
     individual = Individual()
-    individual.chromosomes = dictionary
+    for i in args:
+        individual.chromosomes = dict(individual.chromosomes, **i)
     return individual
 
 
