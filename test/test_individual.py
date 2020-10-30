@@ -50,10 +50,10 @@ class TestIndividual:
         assert self.zeros.chromosomes == zeros_dict
         assert self.ones.chromosomes == ones_dict
 
-    def test_individual_equal_the_same_chromosome(self):
+    def test_individual_equal_the_same_individual(self):
         assert individual_equal(self.first, self.first)
 
-    def test_individual_equal_different_chromosome(self):
+    def test_individual_equal_different_individual(self):
         assert not individual_equal(self.first, self.second)
 
     def test_remove_missing_chromosome(self):
