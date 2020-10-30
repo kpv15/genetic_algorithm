@@ -36,6 +36,12 @@ class Chromosome:
     def partial_logical_and(self, chromosome, array: List[int]):
         return make_chromosome(np.array([x and y if i in array else x for i, (x, y) in enumerate(zip(self, chromosome))]))
 
+    def logical_xor(self, chromosome):
+        return make_chromosome(np.logical_xor(self.genes, chromosome.genes))
+
+    def partial_logical_xor(self, chromosome, array: List[int]):
+        return make_chromosome(np.array([x != y if i in array else x for i, (x, y) in enumerate(zip(self, chromosome))]))
+
     def combine(self, individual, function):
         return function(self, individual)
 

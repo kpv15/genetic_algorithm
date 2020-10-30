@@ -100,6 +100,27 @@ class TestChromosome:
     def test_partial_logical_and_asymmetric(self):
         assert not chromosome_equal(self.second.partial_logical_and(self.third, [1, 3, 5, 7]),
                                     self.third.partial_logical_and(self.second, [1, 3, 5, 7]))
+
+    def test_logical_xor_same_input(self):
+        assert chromosome_equal(self.first.logical_xor(self.first), self.zeros)
+
+    def test_logical_xor(self):
+        assert chromosome_equal(self.first.logical_xor(self.second), self.ones)
+        assert chromosome_equal(self.zeros.logical_xor(self.ones), self.ones)
+
+    def test_logical_xor_symmetric(self):
+        assert chromosome_equal(self.second.logical_xor(self.third), self.third.logical_xor(self.second))
+
+    def test_partial_logical_xor_empty_index_array(self):
+        assert chromosome_equal(self.first.partial_logical_xor(self.ones, []), self.first)
+
+    def test_partial_logical_xor(self):
+        assert chromosome_equal(self.first.partial_logical_xor(self.second, [0, 1, 2, 3]), self.ones)
+        assert chromosome_equal(self.second.partial_logical_xor(self.first, [4, 5, 6, 7]), self.ones)
+
+    def test_partial_logical_xor_asymmetric(self):
+        assert not chromosome_equal(self.second.partial_logical_xor(self.third, [1, 3, 5, 7]),
+                                    self.third.partial_logical_xor(self.second, [1, 3, 5, 7]))
         
     def test_combine_with_make_chromosome(self):
         def function(c1, c2):
