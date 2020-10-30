@@ -15,7 +15,7 @@ class Chromosome:
     def __setitem__(self, key, value):
         self.genes[key] = value
 
-    def size(self) -> int:
+    def __len__(self):
         return self.genes.size
 
     def logical_not(self):
@@ -40,15 +40,15 @@ class Chromosome:
         return function(self, individual)
 
     def complete_to(self, chromosome):
-        new_genes = np.empty(chromosome.size(), np.bool_)
-        new_genes[:self.size()] = self.genes
-        new_genes[self.size():] = chromosome[self.size():]
+        new_genes = np.empty(len(chromosome), np.bool_)
+        new_genes[:len(self)] = self.genes
+        new_genes[len(self):] = chromosome[len(self):]
         return make_chromosome(new_genes)
 
     def complete_to_random(self, chromosome):
-        new_genes = np.empty(chromosome.size(), np.bool_)
-        new_genes[:self.size()] = self.genes
-        new_genes[self.size():] = np.random.randint(0, 2, new_genes.size - self.size(), np.bool_)
+        new_genes = np.empty(len(chromosome), np.bool_)
+        new_genes[:len(self)] = self.genes
+        new_genes[len(self):] = np.random.randint(0, 2, new_genes.size - len(self), np.bool_)
         return make_chromosome(new_genes)
 
 
