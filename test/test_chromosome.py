@@ -1,3 +1,5 @@
+from copy import copy
+
 import pytest
 import numpy as np
 
@@ -45,6 +47,11 @@ class TestChromosome:
 
     def test_chromosome_equal_different_chromosomes(self):
         assert not chromosome_equal(self.first, self.second)
+
+    def test_chromosome_setitem(self):
+        first = copy(self.first)
+        first[:4] = True
+        assert chromosome_equal(first, self.ones)
 
     def test_logical_not(self):
         assert chromosome_equal(self.ones.logical_not(), self.zeros)

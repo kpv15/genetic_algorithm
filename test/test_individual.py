@@ -47,8 +47,17 @@ class TestIndividual:
     def test_individual_equal_the_same_individual(self):
         assert individual_equal(self.first, self.first)
 
-    def test_individual_equal_different_individual(self):
+    def test_individual_equal_different_individual_different_length(self):
         assert not individual_equal(self.first, self.second)
+
+    def test_individual_equal_different_individual_the_same_length(self):
+        assert not individual_equal(self.ones, self.zeros)
+
+    def test_individual_setitem(self, chromosomes):
+        _, _, third_chromosome, _, _ = chromosomes
+        second = copy(self.second)
+        second["z"] = third_chromosome
+        assert individual_equal(second, self.first)
 
     def test_extend_one(self):
         individual = Individual()
