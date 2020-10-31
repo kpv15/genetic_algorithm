@@ -1,12 +1,10 @@
-from copy import copy
-
 import pytest
-import numpy as np
+from copy import copy
 
 from model.elements.chromosome import *
 
 
-@pytest.fixture()
+@pytest.fixture
 def lists():
     first_list = np.array([0, 0, 0, 0, 1, 1, 1, 1])
     second_list = np.array([1, 1, 1, 1, 0, 0, 0, 0])
@@ -16,7 +14,7 @@ def lists():
     return first_list, second_list, third_list, ones_list, zeros_list
 
 
-@pytest.fixture()
+@pytest.fixture
 def chromosomes(lists):
     first_array, second_array, third_array, ones_array, zeros_array = lists
     first = make_chromosome(first_array)
@@ -132,16 +130,19 @@ class TestChromosome:
     def test_combine_with_make_chromosome(self):
         def function(c1, c2):
             return make_chromosome(c1.genes + c2.genes)
+
         assert chromosome_equal(self.first.combine(self.second, function), make_chromosome(self.first.genes + self.second.genes))
 
     def test_combine_with_logical_function(self):
         def function(c1, c2):
             return c1.logical_and(c2)
+
         assert chromosome_equal(self.first.combine(self.second, function), self.zeros)
 
     def test_combine_with_nested_logical_function(self):
         def function(c1, c2):
             return c1.logical_and(c2).logical_not()
+
         assert chromosome_equal(self.first.combine(self.second, function), self.ones)
 
     def test_complete_to(self):
@@ -165,5 +166,6 @@ class TestChromosome:
         assert len(chromosome) == 32
 
     def test_make_random_chromosome_randomness(self):
-        chromosome1, chromosome2 = make_random_chromosome(200), make_random_chromosome(200)
+        chromosome1 = make_random_chromosome(200)
+        chromosome2 = make_random_chromosome(200)
         assert not chromosome_equal(chromosome1, chromosome2)

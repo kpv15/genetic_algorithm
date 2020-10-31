@@ -1,13 +1,13 @@
+import pytest
+
 from copy import copy
 from functools import partial
-
-import pytest
 
 from model.elements.individual import *
 from .test_chromosome import chromosomes, lists
 
 
-@pytest.fixture()
+@pytest.fixture
 def dicts(chromosomes):
     first, second, third, ones, zeros = chromosomes
     first_dict = {"x": first, "y": second, "z": third}
@@ -88,6 +88,7 @@ class TestIndividual:
     def test_combine_with_make_individual(self):
         def function(i1, i2):
             return make_individual(dict(i1.chromosomes, **i2.chromosomes))
+
         assert individual_equal(self.first, self.second.combine(self.third, function))
 
     def test_combine_with_logical_function_and_make_individual(self):

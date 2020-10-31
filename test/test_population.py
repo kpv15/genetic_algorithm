@@ -1,7 +1,6 @@
+import pytest
 from copy import copy
 from functools import partial
-
-import pytest
 
 from model.elements.individual import make_individual, individual_equal
 from model.elements.population import *
