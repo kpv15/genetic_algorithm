@@ -1,7 +1,7 @@
 from functools import reduce
 from typing import List
 
-from .individual import Individual
+from .individual import Individual, make_random_individual
 
 
 class Population:
@@ -44,6 +44,13 @@ class Population:
 def make_population(*args) -> Population:
     population = Population()
     population.individuals.extend(args)
+    return population
+
+
+def make_random_population(population_size: int, chromosome_size: int, chromosome_names: List[str]):
+    population = Population()
+    for i in range(population_size):
+        population.append(make_random_individual(chromosome_size, chromosome_names))
     return population
 
 

@@ -119,3 +119,14 @@ class TestPopulation:
         individual = Individual()
         individual.extend(*self.zeros.individuals)
         assert individual_equal(population[-1], individual)
+
+    def test_make_random_population_size(self):
+        population = make_random_population(10, 32, ["x", "y", "z"])
+        assert len(population) == 10
+        assert all(len(val) == 3 for val in population.individuals)
+        assert all(len(val) == 32 for individual in population.individuals for val in individual.chromosomes.values())
+
+    def test_make_random_population_randomness(self):
+        population1 = make_random_population(10, 200, ["x", "y", "z"])
+        population2 = make_random_population(10, 200, ["x", "y", "z"])
+        assert not population_equal(population1, population2)

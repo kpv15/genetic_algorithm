@@ -3,7 +3,7 @@ from copy import copy
 import pytest
 import numpy as np
 
-from model.elements.chromosome import make_chromosome, chromosome_equal
+from model.elements.chromosome import *
 
 
 @pytest.fixture()
@@ -159,3 +159,11 @@ class TestChromosome:
         assert all(i < 2 for i in completed_chromosome)
         assert not np.array_equal(completed_chromosome[len(self.second):],
                                   larger_chromosome[:len(completed_chromosome) - len(self.second)])
+
+    def test_make_random_chromosome_size(self):
+        chromosome = make_random_chromosome(32)
+        assert len(chromosome) == 32
+
+    def test_make_random_chromosome_randomness(self):
+        chromosome1, chromosome2 = make_random_chromosome(200), make_random_chromosome(200)
+        assert not chromosome_equal(chromosome1, chromosome2)

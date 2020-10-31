@@ -107,3 +107,13 @@ class TestIndividual:
             return make_individual({"ones": i1["x"].combine(i2["y"], function)})
 
         assert individual_equal(self.first.combine(self.second, partial(function_individual, function_chromosomes)), self.ones)
+
+    def test_make_random_individual_size(self):
+        individual = make_random_individual(32, ["x", "y", "z"])
+        assert len(individual) == 3
+        assert all(len(val) == 32 for val in individual.chromosomes.values())
+
+    def test_make_random_chromosome_randomness(self):
+        individual1 = make_random_individual(200, ["x", "y", "z"])
+        individual2 = make_random_individual(200, ["x", "y", "z"])
+        assert not individual_equal(individual1, individual2)

@@ -64,5 +64,11 @@ def make_chromosome(ndarray: np.ndarray) -> Chromosome:
     return chromosome
 
 
+def make_random_chromosome(size: int) -> Chromosome:
+    chromosome = Chromosome(size)
+    chromosome.genes = np.random.randint(0, 2, size, dtype=np.bool_)
+    return chromosome
+
+
 def chromosome_equal(first: Chromosome, second: Chromosome) -> bool:
     return np.array_equal(first.genes, second.genes)

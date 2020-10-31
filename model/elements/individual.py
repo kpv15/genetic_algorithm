@@ -1,6 +1,6 @@
-from typing import Dict, List
+from typing import List
 
-from model.elements.chromosome import chromosome_equal, Chromosome
+from model.elements.chromosome import chromosome_equal, make_random_chromosome
 
 
 class Individual:
@@ -35,6 +35,13 @@ def make_individual(*args) -> Individual:
     individual = Individual()
     for i in args:
         individual.chromosomes = dict(individual.chromosomes, **i)
+    return individual
+
+
+def make_random_individual(chromosome_size: int, chromosome_names: List[str]) -> Individual:
+    individual = Individual()
+    for name in chromosome_names:
+        individual[name] = make_random_chromosome(chromosome_size)
     return individual
 
 
