@@ -1,7 +1,7 @@
 from functools import reduce
 from typing import List
 
-from .individual import Individual, make_random_individual
+from model.elements import Individual, make_random_individual
 
 
 class Population:

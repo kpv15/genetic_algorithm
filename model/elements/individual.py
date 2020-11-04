@@ -1,6 +1,6 @@
 from typing import List
 
-from model.elements.chromosome import chromosome_equal, make_random_chromosome
+from model.elements import chromosome_equal, make_random_chromosome
 
 
 class Individual:
