@@ -40,6 +40,12 @@ class Population:
                 to_reduce.append(self[i])
         return reduce(function, to_reduce)
 
+    def get_fitness(self, fitness_function) -> List:
+        fitness_list = []
+        for individual in self.individuals:
+            fitness_list.append(fitness_function(individual))
+        return fitness_list
+
 
 def make_population(*args) -> Population:
     population = Population()

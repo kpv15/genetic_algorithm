@@ -1,7 +1,9 @@
 import pytest
+import numpy as np
 from copy import copy
 from functools import partial
 
+from model.elements import Chromosome
 from model.elements.individual import make_individual, individual_equal
 from model.elements.population import *
 from .test_individual import individuals, chromosomes, lists, dicts
@@ -118,6 +120,18 @@ class TestPopulation:
         individual = Individual()
         individual.extend(*self.zeros.individuals)
         assert individual_equal(population[-1], individual)
+
+    def test_fitness(self):
+        def fitness_function(individual: Individual):
+            fitness = 0
+            for chromosome in individual.chromosomes.values():
+                fitness += np.count_nonzero(chromosome.genes)
+            return fitness
+
+        assert np.array_equal(self.zeros.get_fitness(fitness_function), [0])
+        assert np.array_equal(self.ones.get_fitness(fitness_function), [len(self.ones[0]["ones"])])
+        assert np.array_equal(self.first.get_fitness(fitness_function), [12, 8])
+
 
     def test_make_random_population_size(self):
         population = make_random_population(10, 32, ["x", "y", "z"])

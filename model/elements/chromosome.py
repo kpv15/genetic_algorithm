@@ -42,8 +42,8 @@ class Chromosome:
     def partial_logical_xor(self, chromosome, array: List[int]):
         return make_chromosome(np.array([x != y if i in array else x for i, (x, y) in enumerate(zip(self, chromosome))]))
 
-    def combine(self, individual, function):
-        return function(self, individual)
+    def combine(self, chromosome, function):
+        return function(self, chromosome)
 
     def complete_to(self, chromosome):
         new_genes = np.empty(len(chromosome), np.bool_)
