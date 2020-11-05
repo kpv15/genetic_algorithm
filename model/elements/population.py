@@ -40,10 +40,10 @@ class Population:
                 to_reduce.append(self[i])
         return reduce(function, to_reduce)
 
-    def get_fitness(self, fitness_function) -> List:
+    def get_fitness_with_indexes(self, fitness_function) -> List:
         fitness_list = []
-        for individual in self.individuals:
-            fitness_list.append(fitness_function(individual))
+        for i, individual in enumerate(self.individuals):
+            fitness_list.append((fitness_function(individual), i))
         return fitness_list
 
 

@@ -128,10 +128,9 @@ class TestPopulation:
                 fitness += np.count_nonzero(chromosome.genes)
             return fitness
 
-        assert np.array_equal(self.zeros.get_fitness(fitness_function), [0])
-        assert np.array_equal(self.ones.get_fitness(fitness_function), [len(self.ones[0]["ones"])])
-        assert np.array_equal(self.first.get_fitness(fitness_function), [12, 8])
-
+        assert np.array_equal(self.zeros.get_fitness_with_indexes(fitness_function), [(0, 0)])
+        assert np.array_equal(self.ones.get_fitness_with_indexes(fitness_function), [(len(self.ones[0]["ones"]), 0)])
+        assert np.array_equal(self.first.get_fitness_with_indexes(fitness_function), [(12, 0), (8, 1)])
 
     def test_make_random_population_size(self):
         population = make_random_population(10, 32, ["x", "y", "z"])
