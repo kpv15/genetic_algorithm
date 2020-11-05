@@ -9,10 +9,16 @@ class Crossover(GeneticOperator, ABC):
 
 
 class PointCrossover(Crossover):
-    def invoke(self, population: Population) -> Population:
+    def _invoke(self, population: Population) -> Population:
+        pass
+
+    def _check_required_parameters(self):
         pass
 
 
 class HomogenousCrossover(Crossover):
-    def invoke(self, population: Population) -> Population:
+    def _invoke(self, population: Population) -> Population:
+        pass
+
+    def _check_required_parameters(self):
         pass

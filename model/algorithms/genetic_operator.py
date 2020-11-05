@@ -15,6 +15,14 @@ class GeneticOperator(ABC):
     def __setitem__(self, key, value):
         self.parameters[key] = value
 
-    @abstractmethod
     def invoke(self, population: Population) -> Population:
+        self._check_required_parameters()
+        return self._invoke(population)
+
+    @abstractmethod
+    def _check_required_parameters(self):
+        pass
+
+    @abstractmethod
+    def _invoke(self, population: Population) -> Population:
         pass

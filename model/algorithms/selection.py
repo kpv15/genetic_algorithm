@@ -9,20 +9,32 @@ class Selection(GeneticOperator, ABC):
 
 
 class TheBestOfSelection(Selection):
-    def invoke(self, population: Population) -> Population:
+    def _invoke(self, population: Population) -> Population:
+        pass
+
+    def _check_required_parameters(self):
         pass
 
 
 class RouletteSelection(Selection):
-    def invoke(self, population: Population) -> Population:
+    def _invoke(self, population: Population) -> Population:
+        pass
+
+    def _check_required_parameters(self):
         pass
 
 
 class TournamentSelection(Selection):
-    def invoke(self, population: Population) -> Population:
+    def _invoke(self, population: Population) -> Population:
+        pass
+
+    def _check_required_parameters(self):
         pass
 
 
 class EliteStrategy(Selection):
-    def invoke(self, population: Population) -> Population:
+    def _invoke(self, population: Population) -> Population:
+        pass
+
+    def _check_required_parameters(self):
         pass
