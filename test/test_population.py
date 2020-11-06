@@ -121,16 +121,35 @@ class TestPopulation:
         individual.extend(*self.zeros.individuals)
         assert individual_equal(population[-1], individual)
 
-    def test_fitness(self):
+    def test_get_fitness_list_and_sum(self):
         def fitness_function(individual: Individual):
             fitness = 0
             for chromosome in individual.chromosomes.values():
                 fitness += np.count_nonzero(chromosome.genes)
             return fitness
 
-        assert np.array_equal(self.zeros.get_fitness_with_indexes(fitness_function), [(0, 0)])
-        assert np.array_equal(self.ones.get_fitness_with_indexes(fitness_function), [(len(self.ones[0]["ones"]), 0)])
-        assert np.array_equal(self.first.get_fitness_with_indexes(fitness_function), [(12, 0), (8, 1)])
+        zeros_fitness_list_and_sum = self.zeros.get_fitness_list_and_sum(fitness_function)
+        assert np.array_equal(zeros_fitness_list_and_sum[0], [0])
+        assert zeros_fitness_list_and_sum[1] == 0
+
+        ones_fitness_list_and_sum = self.ones.get_fitness_list_and_sum(fitness_function)
+        assert np.array_equal(ones_fitness_list_and_sum[0], [len(self.ones[0]["ones"])])
+        assert ones_fitness_list_and_sum[1] == len(self.ones[0]["ones"])
+
+        first_fitness_list_and_sum = self.first.get_fitness_list_and_sum(fitness_function)
+        assert np.array_equal(first_fitness_list_and_sum[0], [12, 8])
+        assert first_fitness_list_and_sum[1] == 20
+
+    def test_get_fitness_list_with_indexes(self):
+        def fitness_function(individual: Individual):
+            fitness = 0
+            for chromosome in individual.chromosomes.values():
+                fitness += np.count_nonzero(chromosome.genes)
+            return fitness
+
+        assert np.array_equal(self.zeros.get_fitness_list_with_indexes(fitness_function), [(0, 0)])
+        assert np.array_equal(self.ones.get_fitness_list_with_indexes(fitness_function), [(len(self.ones[0]["ones"]), 0)])
+        assert np.array_equal(self.first.get_fitness_list_with_indexes(fitness_function), [(12, 0), (8, 1)])
 
     def test_make_random_population_size(self):
         population = make_random_population(10, 32, ["x", "y", "z"])

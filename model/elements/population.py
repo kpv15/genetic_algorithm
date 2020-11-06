@@ -1,5 +1,5 @@
 from functools import reduce
-from typing import List
+from typing import List, Tuple
 
 from model.elements import Individual, make_random_individual
 
@@ -40,7 +40,14 @@ class Population:
                 to_reduce.append(self[i])
         return reduce(function, to_reduce)
 
-    def get_fitness_with_indexes(self, fitness_function) -> List:
+    def get_fitness_list_and_sum(self, fitness_function) -> Tuple[List, float]:
+        fitness_list, result = [], 0
+        for individual in self.individuals:
+            fitness_list.append(fitness_function(individual))
+            result += fitness_function(individual)
+        return fitness_list, result
+
+    def get_fitness_list_with_indexes(self, fitness_function) -> List:
         fitness_list = []
         for i, individual in enumerate(self.individuals):
             fitness_list.append((fitness_function(individual), i))
