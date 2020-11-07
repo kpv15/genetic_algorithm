@@ -47,7 +47,7 @@ class Population:
             result += fitness_function(individual)
         return fitness_list, result
 
-    def get_fitness_list_with_indexes(self, fitness_function) -> List:
+    def get_fitness_list_with_indexes(self, fitness_function) -> List[Tuple[float, int]]:
         fitness_list = []
         for i, individual in enumerate(self.individuals):
             fitness_list.append((fitness_function(individual), i))
