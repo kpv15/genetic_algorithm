@@ -9,24 +9,24 @@ class Mutation(GeneticOperator, ABC):
 
 
 class PointMutation(Mutation):
-    def _invoke(self, population: Population) -> Population:
+    def invoke(self, population: Population) -> Population:
         pass
 
-    def _check_required_parameters(self):
+    def check_required_parameters(self):
         pass
 
 
 class EdgeMutation(Mutation):
-    def _invoke(self, population: Population) -> Population:
+    def invoke(self, population: Population) -> Population:
         pass
 
-    def _check_required_parameters(self):
+    def check_required_parameters(self):
         pass
 
 
 class Inversion(Mutation):
-    def _invoke(self, population: Population) -> Population:
+    def invoke(self, population: Population) -> Population:
         pass
 
-    def _check_required_parameters(self):
+    def check_required_parameters(self):
         pass
