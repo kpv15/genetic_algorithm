@@ -68,4 +68,10 @@ def make_random_population(population_size: int, chromosome_size: int, chromosom
 
 
 def population_equal(first: Population, second: Population) -> bool:
-    return first.individuals == second.individuals
+    test_list = list(first.individuals)
+    try:
+        for individual in second.individuals:
+            test_list.remove(individual)
+    except ValueError:
+        return False
+    return not test_list
