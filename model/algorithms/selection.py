@@ -18,7 +18,7 @@ class Selection(GeneticOperator, ABC):
         subpopulation = []
         for i in range(self["count"]):
             subpopulation.append(self._select(population, preprocessed_list))
-        return make_population(subpopulation)
+        return make_population(*subpopulation)
 
     @abstractmethod
     def _preprocess_fitness_list(self, population: Population) -> List[Tuple[float, int]]:
