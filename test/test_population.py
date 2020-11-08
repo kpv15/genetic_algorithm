@@ -3,32 +3,9 @@ import numpy as np
 from copy import copy
 from functools import partial
 
-from model.elements import Chromosome
 from model.elements.individual import make_individual, individual_equal
 from model.elements.population import *
-from .test_individual import individuals, chromosomes, lists, dicts
-
-
-@pytest.fixture
-def individuals_lists(individuals):
-    first, second, third, ones, zeros = individuals
-    first_list = [first, second]
-    second_list = [second, third]
-    third_list = [third, ones, zeros]
-    ones_list = [ones]
-    zeros_list = [zeros]
-    return first_list, second_list, third_list, ones_list, zeros_list
-
-
-@pytest.fixture
-def populations(individuals_lists):
-    first_list, second_list, third_list, ones_list, zeros_list = individuals_lists
-    first = make_population(*first_list)
-    second = make_population(*second_list)
-    third = make_population(*third_list)
-    ones = make_population(*ones_list)
-    zeros = make_population(*zeros_list)
-    return first, second, third, ones, zeros
+from .fixtures import *
 
 
 class TestPopulation:

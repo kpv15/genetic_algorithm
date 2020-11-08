@@ -4,29 +4,7 @@ from copy import copy
 from functools import partial
 
 from model.elements.individual import *
-from .test_chromosome import chromosomes, lists
-
-
-@pytest.fixture
-def dicts(chromosomes):
-    first, second, third, ones, zeros = chromosomes
-    first_dict = {"x": first, "y": second, "z": third}
-    second_dict = {"x": first, "y": second}
-    third_dict = {"z": third}
-    ones_dict = {"ones": ones}
-    zeros_dict = {"zeros": zeros}
-    return first_dict, second_dict, third_dict, ones_dict, zeros_dict
-
-
-@pytest.fixture
-def individuals(dicts):
-    first_dict, second_dict, third_dict, ones_dict, zeros_dict = dicts
-    first = make_individual(first_dict)
-    second = make_individual(second_dict)
-    third = make_individual(third_dict)
-    ones = make_individual(ones_dict)
-    zeros = make_individual(zeros_dict)
-    return first, second, third, ones, zeros
+from .fixtures import *
 
 
 class TestIndividual:

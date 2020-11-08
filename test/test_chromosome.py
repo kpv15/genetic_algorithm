@@ -2,27 +2,7 @@ import pytest
 from copy import copy
 
 from model.elements.chromosome import *
-
-
-@pytest.fixture
-def lists():
-    first_list = np.array([0, 0, 0, 0, 1, 1, 1, 1])
-    second_list = np.array([1, 1, 1, 1, 0, 0, 0, 0])
-    third_list = np.array([1, 0, 1, 0, 1, 0, 1, 0])
-    ones_list = np.array([1 for i in range(8)])
-    zeros_list = np.array([0 for i in range(8)])
-    return first_list, second_list, third_list, ones_list, zeros_list
-
-
-@pytest.fixture
-def chromosomes(lists):
-    first_array, second_array, third_array, ones_array, zeros_array = lists
-    first = make_chromosome(first_array)
-    second = make_chromosome(second_array)
-    third = make_chromosome(third_array)
-    ones = make_chromosome(ones_array)
-    zeros = make_chromosome(zeros_array)
-    return first, second, third, ones, zeros
+from .fixtures import lists, chromosomes
 
 
 class TestChromosome:
