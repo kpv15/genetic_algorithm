@@ -5,6 +5,7 @@ from functools import partial
 
 from model.elements.individual import make_individual, individual_equal
 from model.elements.population import *
+from model.algorithms.fitness_functions import *
 from .fixtures import *
 
 
@@ -99,11 +100,7 @@ class TestPopulation:
         assert individual_equal(population[-1], individual)
 
     def test_get_fitness_list_and_sum(self):
-        def fitness_function(individual: Individual):
-            fitness = 0
-            for chromosome in individual.chromosomes.values():
-                fitness += np.count_nonzero(chromosome.genes)
-            return fitness
+        fitness_function = count_nonzero_fitness_function
 
         zeros_fitness_list_and_sum = self.zeros.get_fitness_list_and_sum(fitness_function)
         assert np.array_equal(zeros_fitness_list_and_sum[0], [0])
@@ -118,12 +115,7 @@ class TestPopulation:
         assert first_fitness_list_and_sum[1] == 20
 
     def test_get_fitness_list_with_indexes(self):
-        def fitness_function(individual: Individual):
-            fitness = 0
-            for chromosome in individual.chromosomes.values():
-                fitness += np.count_nonzero(chromosome.genes)
-            return fitness
-
+        fitness_function = count_nonzero_fitness_function
         assert np.array_equal(self.zeros.get_fitness_list_with_indexes(fitness_function), [(0, 0)])
         assert np.array_equal(self.ones.get_fitness_list_with_indexes(fitness_function), [(len(self.ones[0]["ones"]), 0)])
         assert np.array_equal(self.first.get_fitness_list_with_indexes(fitness_function), [(12, 0), (8, 1)])
