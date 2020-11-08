@@ -67,3 +67,19 @@ def populations(individuals_lists):
     ones = make_population(*ones_list)
     zeros = make_population(*zeros_list)
     return first, second, third, ones, zeros
+
+
+@pytest.fixture
+def big_populations(individuals):
+    first, second, third, ones, zeros = individuals
+
+    def _make_population(individual):
+        return make_population(*([individual for _ in range(25)] + [ones for _ in range(25)] + [zeros for _ in range(25)]))
+
+    first_population = _make_population(first)
+    second_population = _make_population(second)
+    third_population = _make_population(third)
+    ones_population = make_population(*([ones for _ in range(50)] + [first for _ in range(25)]))
+    zeros_population = make_population(*([zeros for _ in range(50)] + [first for _ in range(25)]))
+
+    return first_population, second_population, third_population, ones_population, zeros_population
