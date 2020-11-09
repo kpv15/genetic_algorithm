@@ -83,3 +83,6 @@ class EliteStrategy(Selection):
         self["actual"] += 1
         self["elite"].append(population[preprocessed_list[self["actual"] - 1][1]])
         return population[preprocessed_list[self["actual"] - 1][1]]
+
+    def get_elite_as_population(self) -> Population:
+        return make_population(*self["elite"])
