@@ -62,8 +62,24 @@ class TestSelection:
         for selection in ("the_best_of_selection", "roulette_selection", "tournament_selection", "elite_strategy"):
             getattr(self, selection).check_required_parameters()
 
+        self.first_temp_population = make_population(*[self.first_individual for _ in range(self.count)])
+        self.second_temp_population = make_population(*[self.second_individual for _ in range(self.count)])
+
     def test_the_best_of_selection_invoke(self):
-        assert population_equal(self.the_best_of_selection.invoke(self.first),
-                                make_population(*[self.first_individual for _ in range(self.count)]))
-        assert population_equal(self.the_best_of_selection.invoke(self.second),
-                                make_population(*[self.second_individual for _ in range(self.count)]))
+        assert population_equal(self.the_best_of_selection.invoke(self.first), self.first_temp_population)
+        assert population_equal(self.the_best_of_selection.invoke(self.second), self.second_temp_population)
+
+    def test_elite_strategy_invoke(self):
+        assert population_equal(self.elite_strategy.invoke(self.first), self.first_temp_population)
+        assert population_equal(self.elite_strategy.get_elite_as_population(), self.first_temp_population)
+
+        assert population_equal(self.elite_strategy.invoke(self.second), self.second_temp_population)
+        assert population_equal(self.elite_strategy.get_elite_as_population(), self.second_temp_population)
+
+    def test_roulette_selection_preprocess_fitness_list(self):
+        assert self.roulette_selection._preprocess_fitness_list(self.first) == \
+               [(0.0, i) for i in range(50, 75)] + [(0.016, i) for i in range(25, 50)] + [(0.024, i) for i in range(25)]
+
+    def test_tournament_selection_preprocess_fitness_list(self):
+        assert self.tournament_selection._preprocess_fitness_list(self.first) == \
+               [(12, i) if i < 25 else (8, i) for i in range(50)] + [(0, i) for i in range(50, 75)]
