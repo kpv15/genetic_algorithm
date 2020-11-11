@@ -64,16 +64,17 @@ class TestSelection:
 
         self.first_temp_population = make_population(*[self.first_individual for _ in range(self.count)])
         self.second_temp_population = make_population(*[self.second_individual for _ in range(self.count)])
+        self.none_population = make_population(*[None for _ in range(self.count)])
 
     def test_the_best_of_selection_invoke(self):
         assert population_equal(self.the_best_of_selection.invoke(self.first), self.first_temp_population)
         assert population_equal(self.the_best_of_selection.invoke(self.second), self.second_temp_population)
 
     def test_elite_strategy_invoke(self):
-        assert population_equal(self.elite_strategy.invoke(self.first), self.first_temp_population)
+        assert population_equal(self.elite_strategy.invoke(self.first), self.none_population)
         assert population_equal(self.elite_strategy.get_elite_as_population(), self.first_temp_population)
 
-        assert population_equal(self.elite_strategy.invoke(self.second), self.second_temp_population)
+        assert population_equal(self.elite_strategy.invoke(self.second), self.none_population)
         assert population_equal(self.elite_strategy.get_elite_as_population(), self.second_temp_population)
 
     def test_roulette_selection_preprocess_fitness_list(self):
