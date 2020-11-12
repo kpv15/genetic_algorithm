@@ -32,6 +32,9 @@ def test_check_required_parameters_tournament_selection():
     selection["fitness_function"] = lambda x: x ** 2
     selection["tournament_size"] = 10
     selection.check_required_parameters()
+    del selection["count"]
+    del selection["fitness_function"]
+    del selection["tournament_size"]
 
 
 @pytest.mark.parametrize("selection", selections_all)
