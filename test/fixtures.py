@@ -1,7 +1,7 @@
 import pytest
 import numpy as np
 
-from model.elements import make_chromosome, make_individual, make_population
+from model.elements import make_chromosome, make_individual, make_population, Individual
 
 
 @pytest.fixture
@@ -83,3 +83,12 @@ def big_populations(individuals):
     zeros_population = make_population(*([zeros for _ in range(50)] + [first for _ in range(25)]))
 
     return first_population, second_population, third_population, ones_population, zeros_population
+
+@pytest.fixture
+def small_population_and_individuals():
+    first, second, ones = Individual(), Individual(), Individual()
+    first["x"] = make_chromosome(np.asarray([1, 0, 1, 0, 1, 0, 1, 0]))
+    second["x"] = make_chromosome(np.asarray([0, 1, 0, 1, 0, 1, 0, 0]))
+    ones["x"] = make_chromosome(np.asarray([1, 1, 1, 1, 1, 1, 1, 1]))
+    population = make_population(first, second)
+    return population, first, second, ones

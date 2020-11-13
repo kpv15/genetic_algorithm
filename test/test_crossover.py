@@ -4,7 +4,7 @@ from model.elements import make_chromosome, individual_equal
 from model.elements.population import population_equal, make_population
 from model.algorithms.crossover import *
 from model.algorithms.fitness_functions import *
-
+from .fixtures import *
 
 all_crossovers = [PointCrossover(), UniformCrossover()]
 
@@ -45,12 +45,8 @@ def test_check_required_parameters_not_present(crossover):
 
 class TestCrossover:
     @pytest.fixture(autouse=True)
-    def _init_small_populations(self):
-        self.first, self.second, self.impossible = Individual(), Individual(), Individual()
-        self.first["x"] = make_chromosome(np.asarray([1, 0, 1, 0, 1, 0, 1, 0]))
-        self.second["x"] = make_chromosome(np.asarray([0, 1, 0, 1, 0, 1, 0, 0]))
-        self.impossible["x"] = make_chromosome(np.asarray([1, 1, 1, 1, 1, 1, 1, 1]))
-        self.population = make_population(self.first, self.second)
+    def _init_crossovers(self, small_population_and_individuals):
+        self.population, self.first, self.second, self.ones = small_population_and_individuals
 
         self.chromosomes = ["x"]
         self.probability = 0.5
@@ -70,5 +66,5 @@ class TestCrossover:
     def test_crossover(self, crossover):
         crossed_population = getattr(self, crossover).invoke(self.population)
         for individual in crossed_population:
-            assert not individual_equal(individual, self.impossible)
-            assert not individual_equal(individual, self.impossible)
+            assert not individual_equal(individual, self.ones)
+            assert not individual_equal(individual, self.ones)
