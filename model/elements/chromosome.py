@@ -22,7 +22,12 @@ class Chromosome:
         return make_chromosome(np.logical_not(self.genes))
 
     def partial_logical_not(self, array: List[int]):
-        return make_chromosome(np.array([not x if i in array else x for i, x in enumerate(self)]))
+        return make_chromosome(np.array([~x if i in array else x for i, x in enumerate(self)]))
+
+    def partial_logical_not_inplace(self, indexes):
+        for index in range(len(self)):
+            if index in indexes:
+                self.genes[index] = ~self.genes[index]
 
     def logical_or(self, chromosome):
         return make_chromosome(np.logical_or(self.genes, chromosome.genes))

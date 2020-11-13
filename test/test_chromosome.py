@@ -42,6 +42,20 @@ class TestChromosome:
         assert chromosome_equal(self.first.partial_logical_not([0, 2, 5, 7]), self.third)
         assert chromosome_equal(self.second.partial_logical_not([1, 3, 4, 6]), self.third)
 
+    def test_partial_logical_not_inplace_empty_index_array(self):
+        first = copy(self.first)
+        first.partial_logical_not_inplace([])
+        assert chromosome_equal(first, self.first)
+
+    def test_partial_logical_not_inplace(self):
+        first = copy(self.first)
+        first.partial_logical_not_inplace([0, 2, 5, 7])
+        second = copy(self.second)
+        second.partial_logical_not_inplace([1, 3, 4, 6])
+
+        assert chromosome_equal(first, self.third)
+        assert chromosome_equal(second, self.third)
+
     def test_logical_or_same_input(self):
         assert chromosome_equal(self.second.logical_or(self.second), self.second)
 
