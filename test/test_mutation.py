@@ -1,10 +1,8 @@
 import pytest
 from copy import deepcopy
 
-from model.elements import make_chromosome, individual_equal
-from model.elements.population import population_equal, make_population
+from model.elements.population import population_equal
 from model.algorithms.mutation import *
-from model.algorithms.fitness_functions import *
 from .fixtures import *
 
 
@@ -83,7 +81,7 @@ class TestMutation:
 
     def test_inversion(self):
         mutated_population = self.inversion.invoke(deepcopy(self.population))
-        assert_mutations(mutated_population, self.population, self.chromosomes, lambda actual: actual > 2)
+        assert_mutations(mutated_population, self.population, self.chromosomes, lambda actual: actual > 1)
 
 
 def assert_mutations(mutated_population: Population, original_population: Population, chromosomes, assertion):

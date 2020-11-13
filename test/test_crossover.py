@@ -1,9 +1,7 @@
 import pytest
 
-from model.elements import make_chromosome, individual_equal
-from model.elements.population import population_equal, make_population
+from model.elements import individual_equal
 from model.algorithms.crossover import *
-from model.algorithms.fitness_functions import *
 from .fixtures import *
 
 all_crossovers = [PointCrossover(), UniformCrossover()]

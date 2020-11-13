@@ -2,7 +2,7 @@ import pytest
 from copy import copy
 
 from model.elements.chromosome import *
-from .fixtures import lists, chromosomes
+from .fixtures import *
 
 
 class TestChromosome:
