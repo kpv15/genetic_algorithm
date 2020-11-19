@@ -1,4 +1,5 @@
-from typing import List
+import numpy as np
+from typing import List, Dict
 
 from model.elements import chromosome_equal, make_random_chromosome
 
@@ -29,6 +30,12 @@ class Individual:
 
     def combine(self, individual, function):
         return function(self, individual)
+
+    def decode(self, precision: Dict):
+        result = {}
+        for key, value in self.chromosomes.items():
+            result[key] = value.decode(precision[key])
+        return result
 
 
 def make_individual(*args) -> Individual:

@@ -120,12 +120,13 @@ class TestChromosome:
     def test_partial_logical_xor_asymmetric(self):
         assert not chromosome_equal(self.second.partial_logical_xor(self.third, [1, 3, 5, 7]),
                                     self.third.partial_logical_xor(self.second, [1, 3, 5, 7]))
-        
+
     def test_combine_with_make_chromosome(self):
         def function(c1, c2):
             return make_chromosome(c1.genes + c2.genes)
 
-        assert chromosome_equal(self.first.combine(self.second, function), make_chromosome(self.first.genes + self.second.genes))
+        assert chromosome_equal(self.first.combine(self.second, function),
+                                make_chromosome(self.first.genes + self.second.genes))
 
     def test_combine_with_logical_function(self):
         def function(c1, c2):
@@ -163,3 +164,14 @@ class TestChromosome:
         chromosome1 = make_random_chromosome(200)
         chromosome2 = make_random_chromosome(200)
         assert not chromosome_equal(chromosome1, chromosome2)
+
+    @pytest.mark.parametrize("precision,results", [
+        (0, [15, 240, 170, 255, 0]), (8, [0.05859375, 0.9375, 0.6640625, 0.99609375, 0]),
+        (1, [7.5, 120, 85, 127.5, 0]), (2, [3.75, 60, 42.5, 63.75, 0]),
+        (3, [1.875, 30, 21.25, 31.875, 0]), (4, [0.9375, 15, 10.625, 15.9375, 0])])
+    def test_decode(self, precision, results):
+        assert self.first.decode(precision) == results[0]
+        assert self.second.decode(precision) == results[1]
+        assert self.third.decode(precision) == results[2]
+        assert self.ones.decode(precision) == results[3]
+        assert self.zeros.decode(precision) == results[4]
