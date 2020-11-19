@@ -81,7 +81,7 @@ class TestMutation:
 
     def test_inversion(self):
         mutated_population = self.inversion.invoke(deepcopy(self.population))
-        assert_mutations(mutated_population, self.population, self.chromosomes, lambda actual: actual > 1)
+        assert_mutations(mutated_population, self.population, self.chromosomes, lambda actual: actual > 0)
 
 
 def assert_mutations(mutated_population: Population, original_population: Population, chromosomes, assertion):

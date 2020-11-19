@@ -62,6 +62,23 @@ class Chromosome:
         new_genes[len(self):] = np.random.randint(0, 2, new_genes.size - len(self), np.bool_)
         return make_chromosome(new_genes)
 
+    def decode(self, precision: int):
+        result = 0.0
+
+        multiplier = 1
+        for i in range(len(self) - 1 - precision, -1, -1):
+            if self[i]:
+                result += multiplier
+            multiplier *= 2
+
+        multiplier = 0.5
+        for i in range(len(self) - precision, len(self)):
+            if self[i]:
+                result += multiplier
+            multiplier /= 2
+
+        return result
+
 
 def make_chromosome(ndarray: np.ndarray) -> Chromosome:
     chromosome = Chromosome(ndarray.size)

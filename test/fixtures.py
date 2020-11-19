@@ -9,8 +9,8 @@ def lists():
     first_list = np.array([0, 0, 0, 0, 1, 1, 1, 1])
     second_list = np.array([1, 1, 1, 1, 0, 0, 0, 0])
     third_list = np.array([1, 0, 1, 0, 1, 0, 1, 0])
-    ones_list = np.array([1 for i in range(8)])
-    zeros_list = np.array([0 for i in range(8)])
+    ones_list = np.array([1 for _ in range(8)])
+    zeros_list = np.array([0 for _ in range(8)])
     return first_list, second_list, third_list, ones_list, zeros_list
 
 

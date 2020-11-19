@@ -96,3 +96,17 @@ class TestIndividual:
         individual1 = make_random_individual(200, ["x", "y", "z"])
         individual2 = make_random_individual(200, ["x", "y", "z"])
         assert not individual_equal(individual1, individual2)
+
+    @pytest.mark.parametrize("precisions,results", [
+        ({"x": 0, "y": 0, "z": 0, "ones": 0, "zeros": 0},
+            [{"x": 15, "y": 240, "z": 170}, {"x": 15, "y": 240}, {"z": 170}, {"ones": 255}, {"zeros": 0}]),
+        ({"x": 2, "y": 3, "z": 0, "ones": 4, "zeros": 6},
+            [{"x": 3.75, "y": 30, "z": 170}, {"x": 3.75, "y": 30}, {"z": 170}, {"ones": 15.9375}, {"zeros": 0}]),
+        ({"x": 4, "y": 0, "z": 8, "ones": 8, "zeros": 8},
+            [{"x": 0.9375, "y": 240, "z": 0.6640625}, {"x": 0.9375, "y": 240}, {"z": 0.6640625}, {"ones": 0.99609375}, {"zeros": 0}])])
+    def test_decode(self, precisions, results):
+        assert self.first.decode(precisions) == results[0]
+        assert self.second.decode(precisions) == results[1]
+        assert self.third.decode(precisions) == results[2]
+        assert self.ones.decode(precisions) == results[3]
+        assert self.zeros.decode(precisions) == results[4]
