@@ -49,15 +49,16 @@ class GUI:
 
         self.lb_selection_method = self.__new_label("selection method:")
         self.selected_selection_method_name = tk.StringVar(self.window)
-        # self.selected_selection_method_name.trace("Tournament Selection", show_tounament)
         self.combobox_selection_method = self.__new_combobox(selection_methods_names,
                                                              self.selected_selection_method_name)
         self.combobox_selection_method.current(0)
         self.__add_row(self.lb_selection_method, self.combobox_selection_method)
+        self.combobox_selection_method.bind("<<ComboboxSelected>>", self.show_tournament_box)
 
         self.lb_tournament_size = self.__new_label("tournament size:")
         self.entry_tournament_size = self.__new_entry(self.__validate_entry_int)
         self.__add_row(self.lb_tournament_size, self.entry_tournament_size)
+        self.show_tournament_box()
 
         self.lb_mutation_method = self.__new_label("mutation method:")
         self.selected_mutation_method_name = tk.StringVar(self.window)
@@ -75,6 +76,13 @@ class GUI:
         self.start_button = tk.Button(text="Start", command=self.__call_start)
         self.start_button.grid(row=self.current_row, columnspan=self.current_row)
         self.current_row += 1
+
+    def show_tournament_box(self, *args):
+        if self.selected_selection_method_name.get() == "Tournament Selection":
+            self.entry_tournament_size.config(state='normal')
+        else:
+            self.entry_tournament_size.config(state='disabled')
+
 
     def __call_start(self):
         try:
