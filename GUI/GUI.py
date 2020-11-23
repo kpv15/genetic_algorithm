@@ -83,7 +83,6 @@ class GUI:
         else:
             self.entry_tournament_size.config(state='disabled')
 
-
     def __call_start(self):
         try:
             min_val = float(self.entry_min_val.get())
