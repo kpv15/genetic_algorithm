@@ -85,7 +85,7 @@ class Genetic:
         elite_strategy.check_required_parameters()
 
         simulation = Simulation(population, generations_number, selection_strategy, crossing_strategy,
-                                mutation_strategy, fitness_function, inversion_strategy, file)
+                                mutation_strategy, fitness_function, elite_strategy, inversion_strategy, file)
         simulation.simulate()
 
         file.close()

@@ -15,7 +15,7 @@ class Simulation:
     file_output = None
 
     def __init__(self, population, generations_max_number, selection_method, crossover_method, mutation_method,
-                 evaluation_function, elite_function, inversion_method=None, file_output=None):
+                 evaluation_function, elite_function, inversion_method, file_output=None):
         self.population = population
         self.generations_max_number = generations_max_number
         self.selection_method = selection_method
@@ -28,14 +28,16 @@ class Simulation:
 
     def simulate(self):
         for i in range(self.generations_max_number):
-            elite = self.elite_function.invoke(self.population)
+            self.elite_function.invoke(self.population)
+            elite = self.elite_function["elite"]
             self.population = self.selection_method.invoke(self.population)
             self.population = self.crossing_method.invoke(self.population)
             self.population = self.mutation_method.invoke(self.population)
             self.population = self.inversion_method.invoke(self.population)
-            self.population.append(elite)
+            self.population.extend(*elite)
             if self.file_output is not None:
                 self.__save_generation_to_file()
+        self.population.individuals
 
     def __save_generation_to_file(self):
         (fitness_list, result) = self.population.get_fitness_list_and_sum(self.evaluation_function)
