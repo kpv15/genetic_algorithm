@@ -1,3 +1,4 @@
+import math
 from typing import List
 
 import numpy as np
@@ -33,19 +34,22 @@ class Chromosome:
         return make_chromosome(np.logical_or(self.genes, chromosome.genes))
 
     def partial_logical_or(self, chromosome, array: List[int]):
-        return make_chromosome(np.array([x or y if i in array else x for i, (x, y) in enumerate(zip(self, chromosome))]))
+        return make_chromosome(
+            np.array([x or y if i in array else x for i, (x, y) in enumerate(zip(self, chromosome))]))
 
     def logical_and(self, chromosome):
         return make_chromosome(np.logical_and(self.genes, chromosome.genes))
 
     def partial_logical_and(self, chromosome, array: List[int]):
-        return make_chromosome(np.array([x and y if i in array else x for i, (x, y) in enumerate(zip(self, chromosome))]))
+        return make_chromosome(
+            np.array([x and y if i in array else x for i, (x, y) in enumerate(zip(self, chromosome))]))
 
     def logical_xor(self, chromosome):
         return make_chromosome(np.logical_xor(self.genes, chromosome.genes))
 
     def partial_logical_xor(self, chromosome, array: List[int]):
-        return make_chromosome(np.array([x != y if i in array else x for i, (x, y) in enumerate(zip(self, chromosome))]))
+        return make_chromosome(
+            np.array([x != y if i in array else x for i, (x, y) in enumerate(zip(self, chromosome))]))
 
     def combine(self, chromosome, function):
         return function(self, chromosome)
@@ -94,3 +98,16 @@ def make_random_chromosome(size: int) -> Chromosome:
 
 def chromosome_equal(first: Chromosome, second: Chromosome) -> bool:
     return np.array_equal(first.genes, second.genes)
+
+
+def calculate_the_number_of_genes(minimum_value, maximum_value, requested_dx):
+    interval = math.fabs(maximum_value - minimum_value)
+    combination_number = math.ceil(interval / requested_dx)
+
+    genes_number = 0
+    x = combination_number
+    while x >= 1:
+        x = x / 2
+        genes_number += 1
+
+    return genes_number

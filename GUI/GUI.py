@@ -1,5 +1,6 @@
 import tkinter as tk
 import tkinter.ttk as tkk
+from tkinter import messagebox
 
 
 class GUI:
@@ -34,9 +35,9 @@ class GUI:
         self.entry_elite_strategy_val = self.__new_entry(self.__validate_entry_float)
         self.__add_row(self.lb_elite_strategy_val, self.entry_elite_strategy_val)
 
-        self.lb_immersion_operator_val = self.__new_label("immersion operator %:")
-        self.entry_immersion_operator_val = self.__new_entry(self.__validate_entry_float)
-        self.__add_row(self.lb_immersion_operator_val, self.entry_immersion_operator_val)
+        self.lb_inversion_operator_val = self.__new_label("inversion probability %:")
+        self.entry_inversion_operator_probability = self.__new_entry(self.__validate_entry_float)
+        self.__add_row(self.lb_inversion_operator_val, self.entry_inversion_operator_probability)
 
         self.lb_crossing_probability_val = self.__new_label("crossing probability %:")
         self.entry_crossing_probability_val = self.__new_entry(self.__validate_entry_float)
@@ -48,10 +49,15 @@ class GUI:
 
         self.lb_selection_method = self.__new_label("selection method:")
         self.selected_selection_method_name = tk.StringVar(self.window)
+        # self.selected_selection_method_name.trace("Tournament Selection", show_tounament)
         self.combobox_selection_method = self.__new_combobox(selection_methods_names,
                                                              self.selected_selection_method_name)
         self.combobox_selection_method.current(0)
         self.__add_row(self.lb_selection_method, self.combobox_selection_method)
+
+        self.lb_tournament_size = self.__new_label("tournament size:")
+        self.entry_tournament_size = self.__new_entry(self.__validate_entry_int)
+        self.__add_row(self.lb_tournament_size, self.entry_tournament_size)
 
         self.lb_mutation_method = self.__new_label("mutation method:")
         self.selected_mutation_method_name = tk.StringVar(self.window)
@@ -71,27 +77,81 @@ class GUI:
         self.current_row += 1
 
     def __call_start(self):
-        print(self.entry_min_val.get())
-        print(self.entry_max_val.get())
-        print(self.entry_dx_val.get())
-        print(self.entry_population_size.get())
-        print(self.entry_generations_number.get())
-        print(self.entry_elite_strategy_val.get())
-        print(self.entry_immersion_operator_val.get())
-        print(self.selected_selection_method_name.get())
-        print(self.selected_mutation_method_name.get())
-        print(self.selected_crossing_method_name.get())
+        try:
+            min_val = float(self.entry_min_val.get())
+        except:
+            messagebox.showerror('error', "incorrect min val")
+            return
+
+        try:
+            max_val = float(self.entry_max_val.get())
+        except:
+            messagebox.showerror('error', "incorrect max val")
+            return
+
+        try:
+            dx_val = float(self.entry_dx_val.get())
+        except:
+            messagebox.showerror('error', "incorrect dx val")
+            return
+
+        try:
+            population_size = int(self.entry_population_size.get())
+        except:
+            messagebox.showerror('error', "incorrect population size")
+            return
+
+        try:
+            generations_number = int(self.entry_generations_number.get())
+        except:
+            messagebox.showerror('error', "incorrect generation number")
+            return
+
+        try:
+            elite_strategy_val = float(self.entry_elite_strategy_val.get()) / 100
+        except:
+            messagebox.showerror('error', "incorrect elite strategy val")
+            return
+
+        try:
+            inversion_operator_probability = float(self.entry_inversion_operator_probability.get()) / 100
+        except:
+            messagebox.showerror('error', "incorrect inversion operator probability")
+            return
+
+        try:
+            crossing_probability = float(self.entry_crossing_probability_val.get()) / 100
+        except:
+            messagebox.showerror('error', "incorrect crossing probability")
+            return
+
+        try:
+            mutation_probability = float(self.entry_mutation_probability_val.get()) / 100
+        except:
+            messagebox.showerror('error', "incorrect mutation probability")
+            return
+
+        try:
+            if self.selected_selection_method_name.get() == "Tournament Selection":
+                tournament_size = int(self.entry_tournament_size.get())
+            else:
+                tournament_size = 0
+        except:
+            messagebox.showerror('error', "incorrect tournament size")
+            return
+
         self.program.start_work(
-            float(self.entry_min_val.get()),
-            float(self.entry_max_val.get()),
-            float(self.entry_dx_val.get()),
-            int(self.entry_population_size.get()),
-            int(self.entry_generations_number.get()),
-            float(self.entry_elite_strategy_val.get()),
-            float(self.entry_immersion_operator_val.get()),
-            float(self.entry_crossing_probability_val.get()),
-            float(self.entry_mutation_probability_val.get()),
+            min_val,
+            max_val,
+            dx_val,
+            population_size,
+            generations_number,
+            elite_strategy_val,
+            inversion_operator_probability,
+            crossing_probability,
+            mutation_probability,
             self.selected_selection_method_name.get(),
+            tournament_size,
             self.selected_mutation_method_name.get(),
             self.selected_crossing_method_name.get(),
         )
@@ -134,5 +194,5 @@ class GUI:
 
 
 if __name__ == "__main__":
-    window = GUI(["roulette selection", "one", "two"], ["one", "two"], ["one", "two"])
+    window = GUI(1, ["roulette selection", "one", "two"], ["one", "two"], ["one", "two"])
     window.show()

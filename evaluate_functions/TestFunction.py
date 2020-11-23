@@ -1,12 +1,12 @@
-import numpy as np
-
 from evaluate_functions.EvaluateFunction import EvaluateFunction
+from model.elements import Individual
 
 
 class TestFunction(EvaluateFunction):
-    def evaluate(self, values):
-        x1 = values[0]
-        x2 = values[1]
+    @staticmethod
+    def evaluate(values: Individual):
+        x1 = values.chromosomes.values()['x1'].docode()
+        x2 = values.chromosomes.values()['x2'].docode()
         # fact1 = math.cos(math.sin(math.fabs(x1**2-x2**2))) - 0.5
         # fact1 = np.cos(np.sin(np.fabs(x1 ** 2 - x2 ** 2))) - 0.5
         # fact2 = (1 + 0.001 * (x1 ** 2 + x2 ** 2)) ** 2
@@ -14,5 +14,9 @@ class TestFunction(EvaluateFunction):
         y = x1 ** 2 + (x2 - 5) ** 2 + 6
         return y
 
-    def getValuesNumber(self):
-        return 2
+    def getParameterNumber(self):
+        return len(self.getParameterNames())
+
+    @staticmethod
+    def getParameterNames():
+        return ['x1', 'x2']
