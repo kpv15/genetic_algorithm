@@ -11,23 +11,19 @@ class GUI:
         self.window = tk.Tk()
         self.window.title("Genetic")
 
-        self.lb_min_val = self.__new_label("minimal value:")
-        self.entry_min_val = self.__new_entry(self.__validate_entry_float)
-        self.__add_row(self.lb_min_val, self.entry_min_val)
+        self.lb_x_value = self.__new_label("x: <-x,x-1> value:")
+        self.entry_x_value = self.__new_entry(self.__validate_entry_float)
+        self.__add_row(self.lb_x_value, self.entry_x_value)
 
-        self.lb_max_val = self.__new_label("maximal value:")
-        self.entry_max_val = self.__new_entry(self.__validate_entry_float)
-        self.__add_row(self.lb_max_val, self.entry_max_val)
-
-        self.lb_dx_val = self.__new_label("dx value:")
-        self.entry_dx_val = self.__new_entry(self.__validate_entry_float)
-        self.__add_row(self.lb_dx_val, self.entry_dx_val)
+        self.lb_digits_number = self.__new_label("digits after comma:")
+        self.entry_digits_number = self.__new_entry(self.__validate_entry_int)
+        self.__add_row(self.lb_digits_number, self.entry_digits_number)
 
         self.lb_population_size = self.__new_label("population size:")
         self.entry_population_size = self.__new_entry(self.__validate_entry_int)
         self.__add_row(self.lb_population_size, self.entry_population_size)
 
-        self.lb_generations_number = self.__new_label("generations number:")
+        self.lb_generations_number = self.__new_label("epoch number:")
         self.entry_generations_number = self.__new_entry(self.__validate_entry_int)
         self.__add_row(self.lb_generations_number, self.entry_generations_number)
 
@@ -85,19 +81,13 @@ class GUI:
 
     def __call_start(self):
         try:
-            min_val = float(self.entry_min_val.get())
+            x_value = float(self.entry_x_value.get())
         except:
             messagebox.showerror('error', "incorrect min val")
             return
 
         try:
-            max_val = float(self.entry_max_val.get())
-        except:
-            messagebox.showerror('error', "incorrect max val")
-            return
-
-        try:
-            dx_val = float(self.entry_dx_val.get())
+            digits_number = int(self.entry_digits_number.get())
         except:
             messagebox.showerror('error', "incorrect dx val")
             return
@@ -148,9 +138,8 @@ class GUI:
             return
 
         self.program.start_work(
-            min_val,
-            max_val,
-            dx_val,
+            x_value,
+            digits_number,
             population_size,
             generations_number,
             elite_strategy_val,

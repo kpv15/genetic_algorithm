@@ -1,8 +1,10 @@
+from functools import partial
+
 from GUI.GUI import GUI
 from Simulation import Simulation
 from evaluate_functions.TestFunction import TestFunction
 from model.algorithms import PointCrossover, UniformCrossover, PointMutation, EdgeMutation, TheBestOfSelection, \
-    TournamentSelection, RouletteSelection, Inversion
+    TournamentSelection, RouletteSelection, Inversion, ackley_function_minimum_fitness_funtion, EliteStrategy
 
 from model.elements import make_random_population, calculate_the_number_of_genes
 
@@ -40,39 +42,50 @@ class Genetic:
             strategy[dict_element[0]] = dict_element[1]
         return strategy
 
-    def start_work(self, minimum_value, maximum_value, dx_value, population_size, generations_number,
+    def start_work(self, x_value, digits_count, population_size, generations_number,
                    elite_strategy_value, inversion_probability, crossing_probability, mutation_probability,
                    selection_method_name, tournament_size, mutation_method_name, crossing_method_name):
         file = open("result.txt", "w")
 
-        function = TestFunction()
+        elite_strategy_count = round(population_size * elite_strategy_value)
+        variables_names = ['x', 'y']
         population = make_random_population(population_size,
-                                            calculate_the_number_of_genes(minimum_value, maximum_value, dx_value),
-                                            function.getParameterNames())
+                                            calculate_the_number_of_genes(x_value, digits_count),
+                                            variables_names)
+
+        precisions = {"x": digits_count, "y": digits_count}
+        #todo if from gui
+        fitness_function = partial(ackley_function_minimum_fitness_funtion, precisions)
 
         selection_strategy = self.create_strategy(self.selection_methods[selection_method_name])
-        selection_strategy["count"] = population_size
-        selection_strategy["fitness_function"] = function.evaluate
+        selection_strategy["count"] = round(population_size-elite_strategy_count)
+        selection_strategy["fitness_function"] = fitness_function
         selection_strategy["tournament_size"] = tournament_size
         selection_strategy.check_required_parameters()
 
         mutation_strategy = self.create_strategy(self.mutation_methods[mutation_method_name])
-        mutation_strategy["chromosomes"] = function.getParameterNumber()
+        mutation_strategy["chromosomes"] = variables_names
         mutation_strategy["probability"] = mutation_probability
         mutation_strategy.check_required_parameters()
 
         crossing_strategy = self.create_strategy(self.crossing_methods[crossing_method_name])
-        crossing_strategy["chromosomes"] = function.getParameterNumber()
+        crossing_strategy["chromosomes"] = variables_names
         crossing_strategy["probability"] = crossing_probability
         crossing_strategy.check_required_parameters()
 
         inversion_strategy = Inversion()
-        inversion_strategy["chromosomes"] = function.getParameterNumber()
+        inversion_strategy["chromosomes"] = variables_names
         inversion_strategy["probability"] = inversion_probability
         inversion_strategy.check_required_parameters()
 
+        elite_strategy = EliteStrategy()
+        elite_strategy["count"] = elite_strategy_count
+        elite_strategy["fitness_function"] = fitness_function
+        elite_strategy["tournament_size"] = tournament_size
+        elite_strategy.check_required_parameters()
+
         simulation = Simulation(population, generations_number, selection_strategy, crossing_strategy,
-                                mutation_strategy, function, inversion_strategy, file)
+                                mutation_strategy, fitness_function, inversion_strategy, file)
         simulation.simulate()
 
         file.close()

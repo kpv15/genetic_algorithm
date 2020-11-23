@@ -100,14 +100,10 @@ def chromosome_equal(first: Chromosome, second: Chromosome) -> bool:
     return np.array_equal(first.genes, second.genes)
 
 
-def calculate_the_number_of_genes(minimum_value, maximum_value, requested_dx):
-    interval = math.fabs(maximum_value - minimum_value)
-    combination_number = math.ceil(interval / requested_dx)
-
+def calculate_the_number_of_genes(x_value, digits_count):
     genes_number = 0
-    x = combination_number
-    while x >= 1:
-        x = x / 2
+    while x_value >= 1: # todo test 0 1
+        x_value /= 2
         genes_number += 1
 
     return genes_number
