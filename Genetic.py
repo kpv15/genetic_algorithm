@@ -1,6 +1,7 @@
 from functools import partial
 
 from GUI.GUI import GUI
+from PlotGenerator import PlotGenerator
 from Simulation import Simulation
 from model.algorithms import PointCrossover, UniformCrossover, PointMutation, EdgeMutation, TheBestOfSelection, \
     TournamentSelection, RouletteSelection, Inversion, ackley_function_minimum_fitness_funtion, EliteStrategy, \
@@ -61,7 +62,7 @@ class Genetic:
             fitness_function = partial(ackley_function_maximum_fitness_funtion, precisions)
 
         selection_strategy = self.create_strategy(self.selection_methods[selection_method_name])
-        selection_strategy["count"] = round(population_size-elite_strategy_count)
+        selection_strategy["count"] = round(population_size - elite_strategy_count)
         selection_strategy["fitness_function"] = fitness_function
         selection_strategy["tournament_size"] = tournament_size
         selection_strategy.check_required_parameters()
@@ -88,10 +89,12 @@ class Genetic:
         elite_strategy.check_required_parameters()
 
         simulation = Simulation(population, generations_number, selection_strategy, crossing_strategy,
-                                mutation_strategy, fitness_function, elite_strategy, inversion_strategy, file)
-        result_params, result_value = simulation.simulate()
+                                mutation_strategy, fitness_function, elite_strategy, inversion_strategy, minimum)
+        result_params, result_value, value_history = simulation.simulate()
         self.gui.show_result(result_params, result_value)
-
+        PlotGenerator().generate(value_history, minimum)
+        for epoch in value_history:
+            file.write(str(epoch) + '\n')
         file.close()
 
 
