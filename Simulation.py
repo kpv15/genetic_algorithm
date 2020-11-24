@@ -1,4 +1,3 @@
-from evaluate_functions.EvaluateFunction import EvaluateFunction
 from model.algorithms import Selection, Crossover, Mutation, Inversion, EliteStrategy
 from model.elements import Population
 
@@ -9,7 +8,7 @@ class Simulation:
     selection_method: Selection = None
     crossing_method: Crossover = None
     mutation_method: Mutation = None
-    evaluation_function: EvaluateFunction = None
+    evaluation_function = None
     elite_function: EliteStrategy = None
     inversion_method: Inversion = None
     file_output = None
@@ -38,6 +37,15 @@ class Simulation:
             if self.file_output is not None:
                 self.__save_generation_to_file()
         self.population.individuals
+
+        self.elite_function["count"] = 1
+        self.elite_function.invoke(self.population)
+        elite = self.elite_function["elite"]
+
+        result_params = elite[0].decode(self.evaluation_function.args[0])
+        result_value = self.evaluation_function(elite[0])
+        print("result =", result_params, 'val = ', result_value)
+        return result_params, result_value
 
     def __save_generation_to_file(self):
         (fitness_list, result) = self.population.get_fitness_list_and_sum(self.evaluation_function)

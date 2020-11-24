@@ -102,7 +102,7 @@ def chromosome_equal(first: Chromosome, second: Chromosome) -> bool:
 
 def calculate_the_number_of_genes(x_value, digits_count):
     genes_number = 0
-    while x_value >= 1: # todo test 0 1
+    while x_value >= 1:
         x_value /= 2
         genes_number += 1
 

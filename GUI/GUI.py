@@ -21,7 +21,7 @@ class GUI:
 
         self.lb_destination = self.__new_label("crossing method:")
         self.selected_destination_name = tk.StringVar(self.window)
-        self.combobox_destination = self.__new_combobox(['min','max'], self.selected_destination_name)
+        self.combobox_destination = self.__new_combobox(['min', 'max'], self.selected_destination_name)
         self.combobox_destination.current(0)
         self.__add_row(self.lb_destination, self.combobox_destination)
 
@@ -198,6 +198,9 @@ class GUI:
 
     def show(self):
         self.window.mainloop()
+
+    def show_result(self, result_params, result_value):
+        messagebox.showinfo('finished', str(result_params) + ' value = ' + str(result_value))
 
 
 if __name__ == "__main__":

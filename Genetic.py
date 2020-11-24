@@ -2,7 +2,6 @@ from functools import partial
 
 from GUI.GUI import GUI
 from Simulation import Simulation
-from evaluate_functions.TestFunction import TestFunction
 from model.algorithms import PointCrossover, UniformCrossover, PointMutation, EdgeMutation, TheBestOfSelection, \
     TournamentSelection, RouletteSelection, Inversion, ackley_function_minimum_fitness_funtion, EliteStrategy, \
     ackley_function_maximum_fitness_funtion
@@ -90,7 +89,8 @@ class Genetic:
 
         simulation = Simulation(population, generations_number, selection_strategy, crossing_strategy,
                                 mutation_strategy, fitness_function, elite_strategy, inversion_strategy, file)
-        simulation.simulate()
+        result_params, result_value = simulation.simulate()
+        self.gui.show_result(result_params, result_value)
 
         file.close()
 
