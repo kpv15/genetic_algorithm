@@ -4,7 +4,8 @@ from GUI.GUI import GUI
 from Simulation import Simulation
 from evaluate_functions.TestFunction import TestFunction
 from model.algorithms import PointCrossover, UniformCrossover, PointMutation, EdgeMutation, TheBestOfSelection, \
-    TournamentSelection, RouletteSelection, Inversion, ackley_function_minimum_fitness_funtion, EliteStrategy
+    TournamentSelection, RouletteSelection, Inversion, ackley_function_minimum_fitness_funtion, EliteStrategy, \
+    ackley_function_maximum_fitness_funtion
 
 from model.elements import make_random_population, calculate_the_number_of_genes
 
@@ -44,7 +45,7 @@ class Genetic:
 
     def start_work(self, x_value, digits_count, population_size, generations_number,
                    elite_strategy_value, inversion_probability, crossing_probability, mutation_probability,
-                   selection_method_name, tournament_size, mutation_method_name, crossing_method_name):
+                   selection_method_name, tournament_size, mutation_method_name, crossing_method_name, minimum):
         file = open("result.txt", "w")
 
         elite_strategy_count = round(population_size * elite_strategy_value)
@@ -54,8 +55,11 @@ class Genetic:
                                             variables_names)
 
         precisions = {"x": digits_count, "y": digits_count}
-        #todo if from gui
-        fitness_function = partial(ackley_function_minimum_fitness_funtion, precisions)
+
+        if minimum:
+            fitness_function = partial(ackley_function_minimum_fitness_funtion, precisions)
+        else:
+            fitness_function = partial(ackley_function_maximum_fitness_funtion, precisions)
 
         selection_strategy = self.create_strategy(self.selection_methods[selection_method_name])
         selection_strategy["count"] = round(population_size-elite_strategy_count)

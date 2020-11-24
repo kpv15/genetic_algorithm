@@ -19,6 +19,12 @@ class GUI:
         self.entry_digits_number = self.__new_entry(self.__validate_entry_int)
         self.__add_row(self.lb_digits_number, self.entry_digits_number)
 
+        self.lb_destination = self.__new_label("crossing method:")
+        self.selected_destination_name = tk.StringVar(self.window)
+        self.combobox_destination = self.__new_combobox(['min','max'], self.selected_destination_name)
+        self.combobox_destination.current(0)
+        self.__add_row(self.lb_destination, self.combobox_destination)
+
         self.lb_population_size = self.__new_label("population size:")
         self.entry_population_size = self.__new_entry(self.__validate_entry_int)
         self.__add_row(self.lb_population_size, self.entry_population_size)
@@ -63,7 +69,6 @@ class GUI:
         self.__add_row(self.lb_mutation_method, self.combobox_mutation_method)
 
         self.lb_crossing_method = self.__new_label("crossing method:")
-        self.lb_crossing_method.grid(row=9, column=0)
         self.selected_crossing_method_name = tk.StringVar(self.window)
         self.combobox_crossing_method = self.__new_combobox(crossing_methods_names, self.selected_crossing_method_name)
         self.combobox_crossing_method.current(0)
@@ -83,14 +88,19 @@ class GUI:
         try:
             x_value = float(self.entry_x_value.get())
         except:
-            messagebox.showerror('error', "incorrect min val")
+            messagebox.showerror('error', "incorrect x val")
             return
 
         try:
             digits_number = int(self.entry_digits_number.get())
         except:
-            messagebox.showerror('error', "incorrect dx val")
+            messagebox.showerror('error', "digits number")
             return
+
+        if self.selected_destination_name.get() == 'min':
+            minimum = True
+        else:
+            minimum = False
 
         try:
             population_size = int(self.entry_population_size.get())
@@ -150,6 +160,7 @@ class GUI:
             tournament_size,
             self.selected_mutation_method_name.get(),
             self.selected_crossing_method_name.get(),
+            minimum
         )
 
     def __add_row(self, label, input_item):
