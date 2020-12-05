@@ -19,6 +19,9 @@ class Chromosome:
     def __len__(self):
         return self.genes.size
 
+    def replace(self, chromosome):
+        self.genes = chromosome.genes
+
     def logical_not(self):
         return make_chromosome(np.logical_not(self.genes))
 
