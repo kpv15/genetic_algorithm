@@ -51,7 +51,7 @@ class Genetic:
         elite_strategy_count = round(population_size * elite_strategy_value)
         variables_names = ['x', 'y']
         population = make_random_population(population_size,
-                                            calculate_the_number_of_genes(x_value, digits_count),
+                                            calculate_the_number_of_genes(x_value),
                                             variables_names)
 
         precisions = {"x": digits_count, "y": digits_count}
