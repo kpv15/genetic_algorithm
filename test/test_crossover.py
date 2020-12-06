@@ -35,6 +35,22 @@ def test_check_required_parameters_point_crossover():
     del crossover["points"]
 
 
+@pytest.mark.parametrize("crossover", [HeuristicCrossover(), ArithmeticCrossover()])
+def test_check_required_parameters_real_crossover(crossover):
+    crossover = UniformCrossover()
+    crossover["chromosomes"] = ["a", "b"]
+    crossover["probability"] = 0.1
+    crossover["k_selection_function"] = lambda: 0.5
+    crossover["precisions"] = {"a": 4, "b": 8}
+    crossover["fills"] = {"a": 16, "b": 32}
+    crossover.check_required_parameters()
+    del crossover["chromosomes"]
+    del crossover["probability"]
+    del crossover["k_selection_function"]
+    del crossover["precisions"]
+    del crossover["fills"]
+
+
 @pytest.mark.parametrize("crossover", all_crossovers)
 def test_check_required_parameters_not_present(crossover):
     with pytest.raises(KeyError):
@@ -50,17 +66,26 @@ class TestCrossover:
         self.probability = 0.5
         self.one_point_crossover, self.two_point_crossover, self.three_point_crossover = PointCrossover(), PointCrossover(), PointCrossover()
         self.uniform_crossover = UniformCrossover()
+        self.arithmetic_crossover = ArithmeticCrossover()
+        self.heuristic_crossover = HeuristicCrossover()
 
         self.one_point_crossover["points"] = 1
         self.two_point_crossover["points"] = 2
         self.three_point_crossover["points"] = 3
 
-        for x in ("one_point_crossover", "two_point_crossover", "three_point_crossover", "uniform_crossover"):
+        for x in ("one_point_crossover", "two_point_crossover", "three_point_crossover", "uniform_crossover",
+                  "arithmetic_crossover", "heuristic_crossover"):
             getattr(self, x)["chromosomes"] = self.chromosomes
             getattr(self, x)["probability"] = self.probability
 
+        for x in ("arithmetic_crossover", "heuristic_crossover"):
+            getattr(self, x)["k_selection_function"] = lambda: 0.5
+            getattr(self, x)["precisions"] = {"x": 4}
+            getattr(self, x)["fills"] = {"x": 16}
+
     @pytest.mark.parametrize("crossover",
-                             ["one_point_crossover", "two_point_crossover", "three_point_crossover", "uniform_crossover"])
+                             ["one_point_crossover", "two_point_crossover", "three_point_crossover", "uniform_crossover",
+                              "arithmetic_crossover", "heuristic_crossover"])
     def test_crossover(self, crossover):
         crossed_population = getattr(self, crossover).invoke(self.population)
         for individual in crossed_population:
