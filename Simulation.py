@@ -37,7 +37,6 @@ class Simulation:
             self.population = self.inversion_method.invoke(self.population)
             self.population.extend(*elite)
             self.__save_generation_to_file()
-        self.population.individuals
 
         self.elite_function["count"] = 1
         self.elite_function.invoke(self.population)

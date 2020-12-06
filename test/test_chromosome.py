@@ -5,6 +5,15 @@ from model.elements.chromosome import *
 from .fixtures import *
 
 
+@pytest.mark.parametrize("number,precision,fill,result", [
+    (0, 0, 2, [0, 0]), (0.5, 1, 2, [0, 1]), (1, 0, 0, [1]),
+    (1.5, 1, 4, [0, 0, 1, 1]), (1.5, 0, 0, [1]),
+    (50.75, 2, 10, [0, 0, 1, 1, 0, 0, 1, 0, 1, 1])])
+def test_make_real_chromosome(number, precision, fill, result):
+    chromosome = make_real_chromosome(number, precision, fill)
+    assert np.array_equal(chromosome.genes, result)
+
+
 class TestChromosome:
     @pytest.fixture(autouse=True)
     def _init_chromosomes(self, chromosomes):

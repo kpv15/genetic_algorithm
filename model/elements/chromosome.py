@@ -19,6 +19,9 @@ class Chromosome:
     def __len__(self):
         return self.genes.size
 
+    def replace(self, chromosome):
+        self.genes = chromosome.genes
+
     def logical_not(self):
         return make_chromosome(np.logical_not(self.genes))
 
@@ -96,14 +99,35 @@ def make_random_chromosome(size: int) -> Chromosome:
     return chromosome
 
 
+def make_real_chromosome(number: float, precision: int, fill: int) -> Chromosome:
+    integer_part = int(number)
+    float_part = number - integer_part
+    genes = []
+
+    while integer_part >= 1:
+        genes.insert(0, 0 if integer_part % 2 == 0 else 1)
+        integer_part = int(integer_part / 2)
+
+    while fill - len(genes) - precision >= 1:
+        genes.insert(0, 0)
+
+    while precision > 0:
+        genes.append(int(2 * float_part))
+        precision -= 1
+
+    chromosome = Chromosome(len(genes))
+    chromosome.genes = np.asarray(genes)
+    return chromosome
+
+
 def chromosome_equal(first: Chromosome, second: Chromosome) -> bool:
     return np.array_equal(first.genes, second.genes)
 
 
-def calculate_the_number_of_genes(x_value, digits_count):
+def calculate_the_number_of_genes(number):
     genes_number = 0
-    while x_value >= 1:
-        x_value /= 2
+    while number >= 1:
+        number /= 2
         genes_number += 1
 
     return genes_number
