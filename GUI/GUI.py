@@ -19,7 +19,7 @@ class GUI:
         self.entry_digits_number = self.__new_entry(self.__validate_entry_int)
         self.__add_row(self.lb_digits_number, self.entry_digits_number)
 
-        self.lb_destination = self.__new_label("crossing method:")
+        self.lb_destination = self.__new_label("find local:")
         self.selected_destination_name = tk.StringVar(self.window)
         self.combobox_destination = self.__new_combobox(['min', 'max'], self.selected_destination_name)
         self.combobox_destination.current(0)
@@ -73,10 +73,22 @@ class GUI:
         self.combobox_crossing_method = self.__new_combobox(crossing_methods_names, self.selected_crossing_method_name)
         self.combobox_crossing_method.current(0)
         self.__add_row(self.lb_crossing_method, self.combobox_crossing_method)
+        self.combobox_crossing_method.bind("<<ComboboxSelected>>", self.show_k_selection_box)
+
+        self.lb_k_selection = self.__new_label("k selection:")
+        self.entry_k_selection = self.__new_entry(self.__validate_entry_float)
+        self.__add_row(self.lb_k_selection, self.entry_k_selection)
+        self.show_k_selection_box()
 
         self.start_button = tk.Button(text="Start", command=self.__call_start)
         self.start_button.grid(row=self.current_row, columnspan=self.current_row)
         self.current_row += 1
+
+    def show_k_selection_box(self, *args):
+        if self.selected_crossing_method_name.get() == "Real crossing":
+            self.entry_k_selection.config(state='normal')
+        else:
+            self.entry_k_selection.config(state='disabled')
 
     def show_tournament_box(self, *args):
         if self.selected_selection_method_name.get() == "Tournament Selection":
@@ -140,6 +152,18 @@ class GUI:
 
         try:
             if self.selected_selection_method_name.get() == "Tournament Selection":
+                k_selection = float(self.entry_k_selection.get())
+            else:
+                k_selection = 0
+            if k_selection < 0 or k_selection > 1:
+                messagebox.showerror('error', "incorrect k selection (not in <0,1>)")
+                return
+        except:
+            messagebox.showerror('error', "incorrect k selection")
+            return
+
+        try:
+            if self.selected_selection_method_name.get() == "Tournament Selection":
                 tournament_size = int(self.entry_tournament_size.get())
             else:
                 tournament_size = 0
@@ -160,7 +184,8 @@ class GUI:
             tournament_size,
             self.selected_mutation_method_name.get(),
             self.selected_crossing_method_name.get(),
-            minimum
+            minimum,
+            k_selection
         )
 
     def __add_row(self, label, input_item):

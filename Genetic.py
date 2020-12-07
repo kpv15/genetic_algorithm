@@ -5,7 +5,7 @@ from PlotGenerator import PlotGenerator
 from Simulation import Simulation
 from model.algorithms import PointCrossover, UniformCrossover, PointMutation, EdgeMutation, TheBestOfSelection, \
     TournamentSelection, RouletteSelection, Inversion, ackley_function_minimum_fitness_funtion, EliteStrategy, \
-    ackley_function_maximum_fitness_funtion
+    ackley_function_maximum_fitness_funtion, RealCrossover, ArithmeticCrossover, HeuristicCrossover, UniformMutation
 
 from model.elements import make_random_population, calculate_the_number_of_genes
 
@@ -20,13 +20,17 @@ class Genetic:
         "One point crossing": (PointCrossover, ("points", 1)),
         "Two point crossing": (PointCrossover, ("points", 2)),
         "Three point crossing": (PointCrossover, ("points", 3)),
-        "Uniform crossing": (UniformCrossover,)
+        "Uniform crossing": (UniformCrossover,),
+        "Real crossing": (RealCrossover,),
+        "Arithmetic crossing": (ArithmeticCrossover,),
+        "Heuristic crossing": (HeuristicCrossover,)
     }
     mutation_methods = {
         "One point mutation": (PointMutation, ("points", 1)),
         "Two point mutation": (PointMutation, ("points", 2)),
         "Three point mutation": (PointMutation, ("points", 3)),
-        "Edge mutation": (EdgeMutation,)
+        "Edge mutation": (EdgeMutation,),
+        "Uniform mutation": (UniformMutation,)
     }
 
     def __init__(self):
@@ -43,9 +47,9 @@ class Genetic:
             strategy[dict_element[0]] = dict_element[1]
         return strategy
 
-    def start_work(self, x_value, digits_count, population_size, generations_number,
-                   elite_strategy_value, inversion_probability, crossing_probability, mutation_probability,
-                   selection_method_name, tournament_size, mutation_method_name, crossing_method_name, minimum):
+    def start_work(self, x_value, digits_count, population_size, generations_number, elite_strategy_value,
+                   inversion_probability, crossing_probability, mutation_probability, selection_method_name,
+                   tournament_size, mutation_method_name, crossing_method_name, minimum, k_selection):
         file = open("result.txt", "w")
 
         elite_strategy_count = round(population_size * elite_strategy_value)

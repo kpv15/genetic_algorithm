@@ -139,4 +139,6 @@ cython_debug/
 
 # doc
 *.pdf
+*.png
+result.txt
 /.idea/
