@@ -85,7 +85,7 @@ class GUI:
         self.current_row += 1
 
     def show_k_selection_box(self, *args):
-        if self.selected_crossing_method_name.get() == "Real crossing":
+        if self.selected_crossing_method_name.get() == "Arithmetic crossing" or self.selected_crossing_method_name.get() == "Heuristic crossing":
             self.entry_k_selection.config(state='normal')
         else:
             self.entry_k_selection.config(state='disabled')
@@ -151,7 +151,7 @@ class GUI:
             return
 
         try:
-            if self.selected_selection_method_name.get() == "Tournament Selection":
+            if self.selected_crossing_method_name.get() == "Arithmetic crossing" or self.selected_crossing_method_name.get() == "Heuristic crossing":
                 k_selection = float(self.entry_k_selection.get())
             else:
                 k_selection = 0

@@ -21,7 +21,6 @@ class Genetic:
         "Two point crossing": (PointCrossover, ("points", 2)),
         "Three point crossing": (PointCrossover, ("points", 3)),
         "Uniform crossing": (UniformCrossover,),
-        "Real crossing": (RealCrossover,),
         "Arithmetic crossing": (ArithmeticCrossover,),
         "Heuristic crossing": (HeuristicCrossover,)
     }
@@ -54,9 +53,8 @@ class Genetic:
 
         elite_strategy_count = round(population_size * elite_strategy_value)
         variables_names = ['x', 'y']
-        population = make_random_population(population_size,
-                                            calculate_the_number_of_genes(x_value),
-                                            variables_names)
+        chromosome_size = calculate_the_number_of_genes(x_value) + digits_count
+        population = make_random_population(population_size, chromosome_size, variables_names)
 
         precisions = {"x": digits_count, "y": digits_count}
 
@@ -74,11 +72,18 @@ class Genetic:
         mutation_strategy = self.create_strategy(self.mutation_methods[mutation_method_name])
         mutation_strategy["chromosomes"] = variables_names
         mutation_strategy["probability"] = mutation_probability
+        mutation_strategy["min"] = -x_value
+        mutation_strategy["max"] = x_value - 1
+        mutation_strategy["precision"] = digits_count
+        mutation_strategy["fill"] = chromosome_size
         mutation_strategy.check_required_parameters()
 
         crossing_strategy = self.create_strategy(self.crossing_methods[crossing_method_name])
         crossing_strategy["chromosomes"] = variables_names
         crossing_strategy["probability"] = crossing_probability
+        crossing_strategy["k_selection_function"] = lambda: k_selection
+        crossing_strategy["precisions"] = precisions
+        crossing_strategy["fills"] = {"x": chromosome_size, "y": chromosome_size}
         crossing_strategy.check_required_parameters()
 
         inversion_strategy = Inversion()
